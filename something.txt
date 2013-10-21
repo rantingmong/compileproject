@@ -1,0 +1,21 @@
+grab 	standard;
+grab	math;
+
+LOLHEYERRORAKO
+HEY BITCH HEY
+DODO
+
+function factorial [whole_number number] returning whole_number<<
+
+	if [ number LTE number ] <<
+		returning 1;
+	>>
+
+	returning number MUL factorial[number SUB 1];
+>>
+
+
+function main[] returning nothing <<
+	
+	 something EQUAL num2 LTE num3 ADD mun4 MUL ten ;
+>>

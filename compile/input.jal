@@ -1,0 +1,21 @@
+grab    <standard>;
+GRAB    <math>;
+
+function factorial          [whole_number number, whole_number number2] returning whole_number <<
+
+	if [number LTE number] <<
+		returning 1;
+	>>
+    else <<
+        returning number MUL factorial[number SUB 1];
+    >>
+>>
+
+function anotherFunction    []                                          returning nothing <<
+
+>>
+
+function main[] returning nothing <<
+	
+	factorial[46];
+>>
