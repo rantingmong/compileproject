@@ -1,6 +1,5 @@
-package app.compile;
-
 // Generated from E:\Code\compileproject\code.g4 by ANTLR 4.1
+package app.compile;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -191,6 +190,26 @@ public class codeBaseListener implements codeListener
      */
     @Override
     public void exitMain_function(@NotNull codeParser.Main_functionContext ctx)
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p/>
+     * The default implementation does nothing.
+     */
+    @Override
+    public void enterOperator_bool4(@NotNull codeParser.Operator_bool4Context ctx)
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p/>
+     * The default implementation does nothing.
+     */
+    @Override
+    public void exitOperator_bool4(@NotNull codeParser.Operator_bool4Context ctx)
     {
     }
 

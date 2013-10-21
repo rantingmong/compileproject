@@ -23,5 +23,13 @@ public class productionFunctionDeclaration extends production
     public void process(ParseTree pt, int level)
     {
         Main.printLine("FUNCTION DECLARATION", level);
+        
+        // 1 3 6 7
+        // 1 == name
+        // 3 == parameter information
+        // 6 == return type
+        // 7 == function instructions
+        
+        // TODO: add this function to the database
     }
 }

@@ -70,8 +70,9 @@ public class Main
         }
         
         if (found == false) {
-            
-            printLine(pt.getText(), level);
+
+            if (pt.getChildCount() == 0)
+                printLine(pt.getText(), level);
 
             for (int i = 0; i < pt.getChildCount(); i++) {
 

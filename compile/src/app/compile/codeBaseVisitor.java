@@ -1,6 +1,6 @@
+// Generated from E:\Code\compileproject\code.g4 by ANTLR 4.1
 package app.compile;
 
-// Generated from E:\Code\compileproject\code.g4 by ANTLR 4.1
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -119,6 +119,18 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
      */
     @Override
     public T visitMain_function(@NotNull codeParser.Main_functionContext ctx)
+    {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p/>
+     * The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.
+     */
+    @Override
+    public T visitOperator_bool4(@NotNull codeParser.Operator_bool4Context ctx)
     {
         return visitChildren(ctx);
     }

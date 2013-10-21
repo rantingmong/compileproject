@@ -1,6 +1,6 @@
+// Generated from E:\Code\compileproject\code.g4 by ANTLR 4.1
 package app.compile;
 
-// Generated from E:\Code\compileproject\code.g4 by ANTLR 4.1
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -94,6 +94,15 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T>
      * @return the visitor result
      */
     T visitMain_function(@NotNull codeParser.Main_functionContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link codeParser#operator_bool4}.
+     * 
+     * @param ctx
+     *            the parse tree
+     * @return the visitor result
+     */
+    T visitOperator_bool4(@NotNull codeParser.Operator_bool4Context ctx);
 
     /**
      * Visit a parse tree produced by {@link codeParser#operator_bool3}.

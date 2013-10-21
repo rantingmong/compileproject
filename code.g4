@@ -189,17 +189,20 @@ s			:   (package_declaration)* (function_declaration)* (main_function)*
 
 //OPERATIONS
 
-operator_bool1          :   operator_bool3
+operator_bool1          :   operator_bool4
+                        |   operator_bool3
                         |   operator_bool2 (LOGIC_1 operator_bool2)*
                         ;
 
-operator_bool2          :   operator_bool3 (LOGIC_2 operator_bool3)*
+operator_bool2          :   operator_bool4
+                        |   operator_bool3 (LOGIC_2 operator_bool3)*
                         ;
 
 operator_bool3          :   operator_bool4 (LOGIC_3 operator_bool4)*
                         ;
                         
-operator_bool4		:   expression1 (LOGIC_4 expression1 LOGIC_4_1)*
+operator_bool4          :   expression1 (LOGIC_4 expression1 LOGIC_4_1)*
+                        ;
 
 //EXPRESSIONS
 
@@ -225,8 +228,8 @@ expression4             :   expression_final
                         |   expression5 ARTH_4
                         ;
 
-expression5             :   TOKEN_OPEN_P expression1 TOKEN_CLOS_P
-                        |   expression_final   
+expression5             :   expression_final
+                        |   TOKEN_OPEN_P expression1 TOKEN_CLOS_P 
                         ;
 
 expression_final        :   (ID | NUM | STRING)

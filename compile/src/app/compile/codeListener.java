@@ -1,6 +1,6 @@
+// Generated from E:\Code\compileproject\code.g4 by ANTLR 4.1
 package app.compile;
 
-// Generated from E:\Code\compileproject\code.g4 by ANTLR 4.1
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -153,6 +153,22 @@ public interface codeListener extends ParseTreeListener
      *            the parse tree
      */
     void exitMain_function(@NotNull codeParser.Main_functionContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link codeParser#operator_bool4}.
+     * 
+     * @param ctx
+     *            the parse tree
+     */
+    void enterOperator_bool4(@NotNull codeParser.Operator_bool4Context ctx);
+
+    /**
+     * Exit a parse tree produced by {@link codeParser#operator_bool4}.
+     * 
+     * @param ctx
+     *            the parse tree
+     */
+    void exitOperator_bool4(@NotNull codeParser.Operator_bool4Context ctx);
 
     /**
      * Enter a parse tree produced by {@link codeParser#operator_bool3}.
