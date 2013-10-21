@@ -196,14 +196,20 @@ operator_bool3          :   expression1 (LOGIC_3 expression1)*
 //EXPRESSIONS
 
 expression1             :   expression_final
+                        |   expression5
+                        |   expression4
+                        |   expression3
                         |   expression2 (ARTH_1 expression2)*
                         ;
 
 expression2             :   expression_final
+                        |   expression5
+                        |   expression4
                         |   expression3 (ARTH_2 expression3)*
                         ;
 
 expression3             :   expression_final
+                        |   expression5
                         |   expression4 (ARTH_3 expression4)*
                         ;
 
