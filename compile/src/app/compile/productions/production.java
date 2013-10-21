@@ -7,5 +7,5 @@ public abstract class production
     public abstract boolean alsoReadChildren    ();
     
     public abstract boolean isProductionValid   (ParseTree pt);
-    public abstract void    process             (ParseTree pt); 
+    public abstract void    process             (ParseTree pt, int level); 
 }
