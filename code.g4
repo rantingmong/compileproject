@@ -62,6 +62,12 @@ LOGIC_3                 :   'LT'
                         |   'lte'
                         |   'gte'
                         ;
+                        
+LOGIC_4			:   '('
+			;
+			
+LOGIC_4_1		:   ')'
+			;
 
 // -----------------------------------------------------------------------------
 
@@ -190,8 +196,10 @@ operator_bool1          :   operator_bool3
 operator_bool2          :   operator_bool3 (LOGIC_2 operator_bool3)*
                         ;
 
-operator_bool3          :   expression1 (LOGIC_3 expression1)*
+operator_bool3          :   operator_bool4 (LOGIC_3 operator_bool4)*
                         ;
+                        
+operator_bool4		:   expression1 (LOGIC_4 expression1 LOGIC_4_1)*
 
 //EXPRESSIONS
 
