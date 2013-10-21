@@ -1,6 +1,6 @@
 package app.compile;
 
-// Generated from E:\Code\COMPILE\code.g4 by ANTLR 4.1
+// Generated from E:\Code\compileproject\code.g4 by ANTLR 4.1
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -142,7 +142,7 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
      * {@link #visitChildren} on {@code ctx}.
      */
     @Override
-    public T visitFunction_declaration(@NotNull codeParser.Function_declarationContext ctx)
+    public T visitOperator_bool2(@NotNull codeParser.Operator_bool2Context ctx)
     {
         return visitChildren(ctx);
     }
@@ -154,7 +154,7 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
      * {@link #visitChildren} on {@code ctx}.
      */
     @Override
-    public T visitOperator_bool2(@NotNull codeParser.Operator_bool2Context ctx)
+    public T visitFunction_declaration(@NotNull codeParser.Function_declarationContext ctx)
     {
         return visitChildren(ctx);
     }
@@ -227,6 +227,18 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
      */
     @Override
     public T visitAssignment_statement(@NotNull codeParser.Assignment_statementContext ctx)
+    {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p/>
+     * The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.
+     */
+    @Override
+    public T visitExpression_final(@NotNull codeParser.Expression_finalContext ctx)
     {
         return visitChildren(ctx);
     }

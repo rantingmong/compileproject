@@ -1,6 +1,6 @@
 package app.compile;
 
-// Generated from E:\Code\COMPILE\code.g4 by ANTLR 4.1
+// Generated from E:\Code\compileproject\code.g4 by ANTLR 4.1
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -27,7 +27,6 @@ public class codeLexer extends Lexer
             TOKEN_DECLARE = 27, TOKEN_AS = 28, TOKEN_IS = 29, TOKEN_IF = 30,
             TOKEN_CHECK = 31, TOKEN_OR = 32, TOKEN_ELSE = 33, TYPE = 34,
             ID = 35, NUM = 36, STRING = 37;
-
     public static String[] modeNames = { "DEFAULT_MODE" };
 
     public static final String[] tokenNames = { "<INVALID>", "WS", "'['", "']'", "'('", "')'", "'<<'", "'>>'", "','", "';'", "':'", "LOGIC_1", "LOGIC_2", "LOGIC_3", "ARTH_1", "ARTH_2", "ARTH_3", "ARTH_4", "TOKEN_GRAB", "TOKEN_MAIN", "TOKEN_FUNCTION", "TOKEN_RETURNING", "TOKEN_REPEAT", "TOKEN_UNTIL", "TOKEN_FROM", "TOKEN_TO", "TOKEN_WITH", "TOKEN_DECLARE", "TOKEN_AS", "TOKEN_IS", "TOKEN_IF", "TOKEN_CHECK", "TOKEN_OR", "TOKEN_ELSE", "TYPE", "ID", "NUM", "STRING" };

@@ -1,6 +1,6 @@
 package app.compile;
 
-// Generated from E:\Code\COMPILE\code.g4 by ANTLR 4.1
+// Generated from E:\Code\compileproject\code.g4 by ANTLR 4.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -220,26 +220,6 @@ public class codeBaseListener implements codeListener
      * The default implementation does nothing.
      */
     @Override
-    public void enterFunction_declaration(@NotNull codeParser.Function_declarationContext ctx)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p/>
-     * The default implementation does nothing.
-     */
-    @Override
-    public void exitFunction_declaration(@NotNull codeParser.Function_declarationContext ctx)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p/>
-     * The default implementation does nothing.
-     */
-    @Override
     public void enterOperator_bool2(@NotNull codeParser.Operator_bool2Context ctx)
     {
     }
@@ -251,6 +231,26 @@ public class codeBaseListener implements codeListener
      */
     @Override
     public void exitOperator_bool2(@NotNull codeParser.Operator_bool2Context ctx)
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p/>
+     * The default implementation does nothing.
+     */
+    @Override
+    public void enterFunction_declaration(@NotNull codeParser.Function_declarationContext ctx)
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p/>
+     * The default implementation does nothing.
+     */
+    @Override
+    public void exitFunction_declaration(@NotNull codeParser.Function_declarationContext ctx)
     {
     }
 
@@ -371,6 +371,26 @@ public class codeBaseListener implements codeListener
      */
     @Override
     public void exitAssignment_statement(@NotNull codeParser.Assignment_statementContext ctx)
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p/>
+     * The default implementation does nothing.
+     */
+    @Override
+    public void enterExpression_final(@NotNull codeParser.Expression_finalContext ctx)
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p/>
+     * The default implementation does nothing.
+     */
+    @Override
+    public void exitExpression_final(@NotNull codeParser.Expression_finalContext ctx)
     {
     }
 

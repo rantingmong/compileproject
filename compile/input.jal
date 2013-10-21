@@ -17,5 +17,5 @@ function anotherFunction    []                                          returnin
 
 function main[] returning nothing <<
 	
-	factorial[46];
+	printText[factorial[46]];
 >>

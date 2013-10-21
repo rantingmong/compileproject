@@ -1,6 +1,6 @@
 package app.compile;
 
-// Generated from E:\Code\COMPILE\code.g4 by ANTLR 4.1
+// Generated from E:\Code\compileproject\code.g4 by ANTLR 4.1
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -171,22 +171,6 @@ public interface codeListener extends ParseTreeListener
     void exitOperator_bool3(@NotNull codeParser.Operator_bool3Context ctx);
 
     /**
-     * Enter a parse tree produced by {@link codeParser#function_declaration}.
-     * 
-     * @param ctx
-     *            the parse tree
-     */
-    void enterFunction_declaration(@NotNull codeParser.Function_declarationContext ctx);
-
-    /**
-     * Exit a parse tree produced by {@link codeParser#function_declaration}.
-     * 
-     * @param ctx
-     *            the parse tree
-     */
-    void exitFunction_declaration(@NotNull codeParser.Function_declarationContext ctx);
-
-    /**
      * Enter a parse tree produced by {@link codeParser#operator_bool2}.
      * 
      * @param ctx
@@ -201,6 +185,22 @@ public interface codeListener extends ParseTreeListener
      *            the parse tree
      */
     void exitOperator_bool2(@NotNull codeParser.Operator_bool2Context ctx);
+
+    /**
+     * Enter a parse tree produced by {@link codeParser#function_declaration}.
+     * 
+     * @param ctx
+     *            the parse tree
+     */
+    void enterFunction_declaration(@NotNull codeParser.Function_declarationContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link codeParser#function_declaration}.
+     * 
+     * @param ctx
+     *            the parse tree
+     */
+    void exitFunction_declaration(@NotNull codeParser.Function_declarationContext ctx);
 
     /**
      * Enter a parse tree produced by {@link codeParser#operator_bool1}.
@@ -297,6 +297,22 @@ public interface codeListener extends ParseTreeListener
      *            the parse tree
      */
     void exitAssignment_statement(@NotNull codeParser.Assignment_statementContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link codeParser#expression_final}.
+     * 
+     * @param ctx
+     *            the parse tree
+     */
+    void enterExpression_final(@NotNull codeParser.Expression_finalContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link codeParser#expression_final}.
+     * 
+     * @param ctx
+     *            the parse tree
+     */
+    void exitExpression_final(@NotNull codeParser.Expression_finalContext ctx);
 
     /**
      * Enter a parse tree produced by {@link codeParser#expression3}.
