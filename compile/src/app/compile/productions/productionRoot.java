@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import app.compile.Main;
 import app.compile.codeParser;
+import app.compile.util.stateMachine;
 
 public class productionRoot extends production
 {
@@ -16,11 +17,11 @@ public class productionRoot extends production
     @Override
     public boolean isProductionValid(ParseTree pt)
     {
-        return pt.getPayload().getClass() == codeParser.SContext.class;
+        return pt.getClass() == codeParser.SContext.class;
     }
 
     @Override
-    public void process(ParseTree pt, int level)
+    public void process(ParseTree pt, int level, stateMachine state)
     {
         Main.printLine("ROOT", level);
     }

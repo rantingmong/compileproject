@@ -9,13 +9,17 @@ function factorial          [whole_number number, whole_number number2] returnin
     else <<
         returning number MUL factorial[number SUB 1];
     >>
+    
+    if [TRUE] <<
+    
+    >>
 >>
 
-function anotherFunction    []                                          returning nothing <<
+function anotherFunction    [blank]                                     returning nothing <<
 
 >>
 
-function main[] returning nothing <<
+function main[]                                                         returning nothing <<
 	
 	printText[factorial[46]];
 >>
