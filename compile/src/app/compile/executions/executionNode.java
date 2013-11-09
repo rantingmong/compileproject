@@ -1,33 +1,33 @@
 package app.compile.executions;
 
+import java.util.List;
+
+import org.antlr.v4.runtime.tree.ParseTree;
+
+import app.compile.core.parameterInformation;
 import app.compile.core.programDatabase;
-import app.compile.core.symbolDatabase;
+import app.compile.core.database.symbolDatabase;
 
 public abstract class executionNode
 {
     /*
-     * Execution nodes holds the information about how would a statement would run.
+     * An execution node is the core on how a function will run. This defines the statements
+     * that will be used by the interpreter.
      * 
-     * Additionally, it has the functionality to check if there are any logic/syntax
-     * errors present in the statement and inform the developer about it.
-     * 
+     * An execution node can either by defined by native code (in this case Java) or the language itself
+     * (in this case JABASCREEP).
      */
-
-    /*
-     * This method checks if its correct, basically.
-     */
-    
-    public abstract boolean checkForConformity  ();
     
     /*
-     * This method runs the execution node.
-     * 
-     * The parameter 'pd' is there so that this execution node can access information such
-     * as package declarations and function information.
-     * 
-     * The parameter 'parentSymbolDatabase' is there so that we can get whatever variables the
-     * developer defined. Of course this execution node can also breed its own symbol database.
+     * This method converts the parse tree to (pseudo) three symbol code.
      */
+    public abstract void convert    (ParseTree pt);
     
-    public abstract void    run                 (programDatabase pd, symbolDatabase parentSymbolDatabase);
+    /*
+     * This method runs the statements defined.
+     * 
+     * capturedScope: this defines the variables that are defined before this execution node is called.
+     * program: this holds information such as defined functions and imported functions.
+     */
+    public abstract void run        (List<parameterInformation> paramInfo, symbolDatabase capturedScope, programDatabase program);
 }

@@ -2,9 +2,8 @@ package app.compile.productions;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import app.compile.Main;
-import app.compile.codeParser;
-import app.compile.util.stateMachine;
+import app.compile.executions.executionNode;
+import app.compile.parser.codeParser;
 
 public class productionPackageDeclaration extends production
 {
@@ -20,9 +19,9 @@ public class productionPackageDeclaration extends production
         return pt.getClass() == codeParser.Package_declarationContext.class;
     }
 
-    @Override
-    public void process(ParseTree pt, int level, stateMachine state)
-    {
-        Main.printLine("PACKAGE DECLARATION: " +  pt.getChild(1).getText(), level);
-    }
+	@Override
+	public executionNode produceProduction(ParseTree pt) {
+		
+		return null;
+	}
 }

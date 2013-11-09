@@ -1,0 +1,92 @@
+grab    <standard>;
+GRAB    <math>;
+
+function factorial          [whole_number number, whole_number number2] returning whole_number <<
+
+    if [number LTE number] <<
+        returning 1;
+    >>
+    else <<
+        returning number MUL factorial[number SUB 1];
+    >>
+    
+    if [TRUE] <<
+    
+    >>
+>>
+
+function anotherFunction    [symbol something]                          returning nothing <<
+
+    check if [something] <<
+        
+        is <a>: <<
+        
+            printText[<Hello world!>];
+        >>
+        is <b>: <<
+        
+            printText[<Minecraft is awesome!>];
+        >>
+        default <<
+        
+            printText[<I have nothing to say.>];
+        >>
+    >>
+>>
+
+function someComplexLogic   [blank]                                     returning nothing <<
+
+    if [(((TRUE AND TRUE) LTE (FALSE AND FALSE)) ADD 10) AND (20 EQUALS TRUE)] <<
+    
+    >>
+>>
+
+function main[]                                                         returning nothing <<
+    
+    printText[factorial[46]];
+>>
+
+----------------------------------------------------------------------------------------------------------------
+
+Function "factorial" has two parameters: number and number2 this will be defined in the parameters list of
+the function.
+
+DEF0:   IF number LTE number2 GOTO DEF1 ELSE GOTO DEF2
+        
+DEF1:   END 1
+
+DEF2:   DEF result1 number SUB 1
+        DEF result2 CALL factorial result1
+        END number MUL result2
+
+DEF3:   IF TRUE GOTO DEF4 ELSE GOTO DEF4
+
+DEF4:
+
+        ENDIF
+
+        END
+
+Function "anotherFunction" has one parameter: something this will be defined in the parameters list of
+the function.
+
+DEF0:   IF something EQUALS <a> GOTO DEF1 ELSE GOTO DEF2
+        
+DEF1:   CALL printText <Hello world!>
+
+        GOTO DEF4
+
+DEF2:   IF something EQUALS <b> GOTO DEF3 ELSE GOTO DEF4
+
+        GOTO DEF4
+
+DEF3:   CALL printText <Minecraft is awesome!>
+
+        GOTO DEF4
+
+DEF4:   END
+        
+Function "main" is a special function so it won't have any parameters.
+
+DEF0:   DEF result1 call factorial 46
+        call printText result1

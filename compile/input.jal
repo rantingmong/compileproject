@@ -17,6 +17,20 @@ function factorial          [whole_number number, whole_number number2] returnin
 
 function anotherFunction    [blank]                                     returning nothing <<
 
+    check if [something] <<
+        
+        is <a>: <<
+
+            printText[<Hello world!>];
+        >>
+    >>
+>>
+
+function someComplexLogic   [blank]                                     returning nothing <<
+
+    if [((TRUE AND TRUE) LTE (FALSE AND FALSE)) EQUAL (20 EQUAL TRUE)] <<
+    
+    >>
 >>
 
 function main[]                                                         returning nothing <<

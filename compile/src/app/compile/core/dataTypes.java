@@ -1,6 +1,6 @@
-package app.compile;
+package app.compile.core;
 
-public enum codeDataTypes
+public enum dataTypes
 {
     NOTHING,
     WHOLE_NUMBER,

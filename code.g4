@@ -7,9 +7,6 @@ options {
                 
 }
 
-WS                      :   (' ' | '\t' | '\r' | '\n')  -> channel(HIDDEN)
-                        ;
-
 // -----------------------------------------------------------------------------
 
 TOKEN_OPEN_B            :   '['
@@ -148,10 +145,6 @@ TOKEN_CHECK             :   'check'
                         |   'CHECK'
                         ;
 
-TOKEN_OR                :   'or'
-                        |   'OR'
-                        ;
-
 TOKEN_ELSE              :   'else'
                         |   'ELSE'
                         ;
@@ -164,6 +157,10 @@ TOKEN_TORF              :   'true'
 
 TOKEN_NO_PARAM          :   'blank'
                         |   'BLANK'
+                        ;
+
+TOKEN_NOT               :   'not'
+                        |   'NOT'
                         ;
 
 // -----------------------------------------------------------------------------
@@ -189,7 +186,10 @@ NUM                     :   ('0'..'9')+
                         |   ('0'..'9')* '.' ('0'..'9')+
                         ;
 
-STRING                  :   ('<')('A'..'Z' | 'a'..'z' | '0'..'9')*('>')
+STRING                  :   ('<')('A'..'Z' | 'a'..'z' | '0'..'9' | ' ' | '!' | '@' | '#' | '$' | '%' | '^' | '&' | '*' | '('| ')' | '-' | '=' | '?' | '/' | '_' | '+')*('>')
+                        ;
+
+WS                      :   (' ' | '\t' | '\r' | '\n')  -> channel(HIDDEN)
                         ;
 
 //PROGRAM START
@@ -199,19 +199,27 @@ s                       :   (package_declaration)* (function_declaration)* (main
 
 //OPERATIONS
 
-operator_bool1          :   operator_bool4
+operator_bool1          :   operator_bool5   
+                        |   operator_bool4
                         |   operator_bool3
                         |   operator_bool2 (LOGIC_1 operator_bool2)*
                         ;
 
-operator_bool2          :   operator_bool4
+operator_bool2          :   operator_bool5   
+                        |   operator_bool4
                         |   operator_bool3 (LOGIC_2 operator_bool3)*
                         ;
 
-operator_bool3          :   operator_bool4 (LOGIC_3 operator_bool4)*
+operator_bool3          :   operator_bool5   
+                        |   operator_bool4 (LOGIC_3 operator_bool4)*
                         ;
                         
-operator_bool4          :   expression1 (TOKEN_OPEN_P expression1 TOKEN_CLOS_P)*
+operator_bool4          :   operator_bool5   
+                        |   TOKEN_OPEN_P operator_bool1 TOKEN_CLOS_P
+                        ;
+
+operator_bool5          :   TOKEN_NOT TOKEN_OPEN_P operator_bool1 TOKEN_CLOS_P
+                        |   expression1
                         ;
 
 //EXPRESSIONS
@@ -258,7 +266,7 @@ function_declaration	:   TOKEN_FUNCTION ID TOKEN_OPEN_B (parameter)* TOKEN_CLOS_
                         ;
 
 parameter               :   (TYPE ID)(TOKEN_COMMA TYPE ID)*
-                        | TOKEN_NO_PARAM
+                        |   TOKEN_NO_PARAM
                         ;
 
 function_call           :   ID TOKEN_OPEN_B expression1 (TOKEN_COMMA expression1)* TOKEN_CLOS_B
@@ -288,19 +296,18 @@ assignment_statement    :   ID TOKEN_IS expression1 TOKEN_SEMICOLON
 logical_statement       :   operator_bool1
                         ;
 
-conditional_statement   :   TOKEN_IF TOKEN_OPEN_B (logical_statement) TOKEN_CLOS_B group_statement conditional_ELSEIF conditional_ELSE
-                        |   TOKEN_CHECK TOKEN_IF TOKEN_OPEN_B ID TOKEN_CLOS_B TOKEN_OPEN_S conditional_CASE+ conditional_DEFAULT TOKEN_CLOS_S
+conditional_statement   :   TOKEN_IF TOKEN_OPEN_B (logical_statement) TOKEN_CLOS_B group_statement (conditional_ELSEIF)* (conditional_ELSE)?
+
+                        |   TOKEN_CHECK TOKEN_IF TOKEN_OPEN_B ID TOKEN_CLOS_B TOKEN_OPEN_S (conditional_CASE)+ (conditional_DEFAULT)? TOKEN_CLOS_S
                         ;
 
-conditional_CASE        :   TOKEN_IS ID TOKEN_COLON group_statement TOKEN_SEMICOLON
-                        |   TOKEN_IS ID TOKEN_COLON statement TOKEN_SEMICOLON
+conditional_CASE        :   TOKEN_IS (ID | NUM | STRING | TOKEN_TORF) TOKEN_COLON group_statement   
                         ;
 
-conditional_DEFAULT     :   TOKEN_OR TOKEN_ELSE TOKEN_COLON group_statement TOKEN_SEMICOLON
-                        |   TOKEN_OR TOKEN_ELSE TOKEN_COLON statement TOKEN_SEMICOLON
+conditional_DEFAULT     :   TOKEN_ELSE TOKEN_COLON group_statement   
                         ;
 
-conditional_ELSEIF      :   (TOKEN_ELSE TOKEN_IF TOKEN_OPEN_B logical_statement TOKEN_CLOS_B group_statement)*
+conditional_ELSEIF      :   TOKEN_ELSE TOKEN_IF TOKEN_OPEN_B logical_statement TOKEN_CLOS_B group_statement
                         ;
 
 conditional_ELSE        :   TOKEN_ELSE group_statement
@@ -308,7 +315,7 @@ conditional_ELSE        :   TOKEN_ELSE group_statement
 
 loop_statement          :   TOKEN_REPEAT group_statement TOKEN_UNTIL TOKEN_OPEN_B logical_statement TOKEN_CLOS_B
                         |   TOKEN_REPEAT TOKEN_UNTIL TOKEN_OPEN_B logical_statement TOKEN_CLOS_B group_statement
-                            
+
                         |   TOKEN_REPEAT TYPE ID TOKEN_FROM expression1 TOKEN_TO expression1 group_statement
                         |   TOKEN_REPEAT TYPE ID TOKEN_FROM expression1 TOKEN_TO expression1 TOKEN_WITH expression1 group_statement
                         ;

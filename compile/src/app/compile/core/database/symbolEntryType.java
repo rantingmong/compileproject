@@ -1,4 +1,4 @@
-package app.compile.core;
+package app.compile.core.database;
 
 public enum symbolEntryType
 {

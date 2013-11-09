@@ -5,59 +5,62 @@ import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import app.compile.codeDataTypes;
-import app.compile.codeParser;
+import app.compile.core.database.symbolDatabase;
+import app.compile.core.database.symbolDatabaseManager;
 import app.compile.executions.executionNode;
+import app.compile.parser.codeParser;
+import app.compile.productions.production;
 
 public class programDatabase
 {
-    private final   List<String>                packageDeclarations;
-    private final   List<functionInformation>   functionDeclarations;
-    
-    private final   ParseTree                   theParseTree;
-    
-    private         boolean                     mainFunctionFound           = false;
-    
-    public          	                       	programDatabase             (ParseTree parseTree)
+    private final List<String>              packageDeclarations;
+    private final List<functionInformation> functionDeclarations;
+
+    private final List<production>          productionList;
+
+    private final ParseTree                 theParseTree;
+
+    private boolean                         mainFunctionFound = false;
+
+    public programDatabase(ParseTree parseTree)
     {
-        theParseTree            = parseTree;
-        
-        packageDeclarations     = new ArrayList<String>();
-        functionDeclarations    = new ArrayList<functionInformation>();
+        theParseTree = parseTree;
+
+        productionList = new ArrayList<production>();
+
+        packageDeclarations = new ArrayList<String>();
+        functionDeclarations = new ArrayList<functionInformation>();
     }
-    
-    public          void                        run                         ()
+
+    public void run()
     {
-        doScouting  ();
-        doTypeCheck ();
-        
+        process();
+
         if (mainFunctionFound)
         {
-            // run the code   
-        }
-        else
+            // run the code
+        } else
         {
             // show an error
         }
     }
 
-    private         void                        doScouting                  ()
+    private void process()
     {
         for (int i = 0; i < theParseTree.getChildCount(); i++)
         {
             ParseTree entry = theParseTree.getChild(i);
-            
-            if      (entry.getClass() == codeParser.Package_declarationContext.class)
+
+            if (entry.getClass() == codeParser.Package_declarationContext.class)
             {
                 packageDeclarations.add(entry.getChild(1).getText());
-            }
-            else if (entry.getClass() == codeParser.Function_declarationContext.class)
+            } else if (entry.getClass() == codeParser.Function_declarationContext.class)
             {
-                functionInformation newFunctionInformation                  = new functionInformation();
-                                    newFunctionInformation.functionName     = entry.getChild(1).getText();
-                                    newFunctionInformation.parameterList    = new ArrayList<parameterInformation>();
-                                    newFunctionInformation.statements       = processNodes(entry.getChild(7));
-                                    
+                functionInformation newFunctionInformation = new functionInformation();
+
+                newFunctionInformation.functionName = entry.getChild(1).getText();
+                newFunctionInformation.parameterList = new ArrayList<parameterInformation>();
+
                 ParseTree parseTreeForParameters = entry.getChild(3);
 
                 if (parseTreeForParameters.getChildCount() > 2)
@@ -66,60 +69,42 @@ public class programDatabase
                     {
                         ParseTree paramType = parseTreeForParameters.getChild(p);
                         ParseTree paramName = parseTreeForParameters.getChild(p + 1);
-                        
-                        parameterInformation    newParamInformation                 = new parameterInformation();
-                                                newParamInformation.parameterName   = paramName.getText();
-                                                newParamInformation.dataType        = convertStringToDatatype(paramType.getText());
-                                                
+
+                        parameterInformation newParamInformation = new parameterInformation();
+
+                        newParamInformation.parameterName = paramName.getText();
+                        newParamInformation.dataType = convertStringToDatatype(paramType.getText());
+
                         newFunctionInformation.parameterList.add(newParamInformation);
                     }
-                        
                 }
-                
+
                 functionDeclarations.add(newFunctionInformation);
-            }
-            else if (entry.getClass() == codeParser.Main_functionContext.class)
+            } else if (entry.getClass() == codeParser.Main_functionContext.class)
             {
                 mainFunctionFound = true;
             }
         }
     }
-    
-    private         void                        doTypeCheck                 ()
-    {
-        
-    }
 
-    private         List<executionNode>         processNodes                (ParseTree pt)
-    {
-        ParseTree statements = pt.getChild(1);
-
-        for (int i = 0; i < statements.getChildCount(); i++)
-        {
-            ParseTree statement = statements.getChild(i);
-            
-            // process statement accordingly
-            
-            // we do matching first
-            
-            // then we convert from parse tree info to execution node info
-        }
-        
-        return null;
-    }
-    
-    private         codeDataTypes               convertStringToDatatype     (String input)
+    private dataTypes convertStringToDatatype(String input)
     {
         switch (input.toLowerCase())
         {
-        case "nothing":         return codeDataTypes.NOTHING;
-        case "whole_number":    return codeDataTypes.WHOLE_NUMBER;
-        case "real_number":     return codeDataTypes.REAL_NUMBER;
-        case "symbol":          return codeDataTypes.SYMBOL;
-        case "characters":      return codeDataTypes.CHARACTERS;
-        case "torf":            return codeDataTypes.TORF;
+        case "nothing":
+            return dataTypes.NOTHING;
+        case "whole_number":
+            return dataTypes.WHOLE_NUMBER;
+        case "real_number":
+            return dataTypes.REAL_NUMBER;
+        case "symbol":
+            return dataTypes.SYMBOL;
+        case "characters":
+            return dataTypes.CHARACTERS;
+        case "torf":
+            return dataTypes.TORF;
         }
-        
-        return codeDataTypes.NOTHING;
+
+        return dataTypes.NOTHING;
     }
 }
