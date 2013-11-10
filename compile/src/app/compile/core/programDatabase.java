@@ -5,61 +5,58 @@ import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import app.compile.core.database.symbolDatabase;
-import app.compile.core.database.symbolDatabaseManager;
-import app.compile.executions.executionNode;
+import app.compile.executions.interpreterExecution;
 import app.compile.parser.codeParser;
-import app.compile.productions.production;
 
 public class programDatabase
 {
-    private final List<String>              packageDeclarations;
-    private final List<functionInformation> functionDeclarations;
+    private final   List<String>                packageDeclarations;
+    private final   List<functionInformation>   functionDeclarations;
 
-    private final List<production>          productionList;
+    private final   ParseTree                   theParseTree;
 
-    private final ParseTree                 theParseTree;
+    private         boolean                     mainFunctionFound       = false;
 
-    private boolean                         mainFunctionFound = false;
-
-    public programDatabase(ParseTree parseTree)
+    private         functionInformation         mainFunction            = null;
+    
+    public          programDatabase             (ParseTree parseTree)
     {
-        theParseTree = parseTree;
+        theParseTree            = parseTree;
 
-        productionList = new ArrayList<production>();
-
-        packageDeclarations = new ArrayList<String>();
-        functionDeclarations = new ArrayList<functionInformation>();
+        packageDeclarations     = new ArrayList<String>();
+        functionDeclarations    = new ArrayList<functionInformation>();
     }
 
-    public void run()
+    public          void                        run                     ()
     {
         process();
 
         if (mainFunctionFound)
         {
             // run the code
-        } else
+        }
+        else
         {
             // show an error
         }
     }
 
-    private void process()
+    private         void                        process                 ()
     {
         for (int i = 0; i < theParseTree.getChildCount(); i++)
         {
             ParseTree entry = theParseTree.getChild(i);
 
-            if (entry.getClass() == codeParser.Package_declarationContext.class)
+            if      (entry.getClass() == codeParser.Package_declarationContext.class)
             {
                 packageDeclarations.add(entry.getChild(1).getText());
-            } else if (entry.getClass() == codeParser.Function_declarationContext.class)
+            }
+            else if (entry.getClass() == codeParser.Function_declarationContext.class)
             {
                 functionInformation newFunctionInformation = new functionInformation();
 
-                newFunctionInformation.functionName = entry.getChild(1).getText();
-                newFunctionInformation.parameterList = new ArrayList<parameterInformation>();
+                newFunctionInformation.functionName     = entry.getChild(1).getText();
+                newFunctionInformation.parameterList    = new ArrayList<parameterInformation>();
 
                 ParseTree parseTreeForParameters = entry.getChild(3);
 
@@ -72,22 +69,37 @@ public class programDatabase
 
                         parameterInformation newParamInformation = new parameterInformation();
 
-                        newParamInformation.parameterName = paramName.getText();
-                        newParamInformation.dataType = convertStringToDatatype(paramType.getText());
+                        newParamInformation.parameterName   = paramName.getText();
+                        newParamInformation.dataType        = convertStringToDatatype(paramType.getText());
 
                         newFunctionInformation.parameterList.add(newParamInformation);
                     }
                 }
 
+                interpreterExecution newIep = new interpreterExecution(newFunctionInformation);
+                newIep.convert(entry.getChild(7).getChild(1));
+                
+                newFunctionInformation.intermediateCode = newIep;
+                
                 functionDeclarations.add(newFunctionInformation);
-            } else if (entry.getClass() == codeParser.Main_functionContext.class)
+            }
+            else if (entry.getClass() == codeParser.Main_functionContext.class)
             {
-                mainFunctionFound = true;
+                mainFunctionFound           = true;
+                mainFunction                = new functionInformation();
+
+                mainFunction.functionName   = entry.getChild(1).getText();
+                mainFunction.parameterList  = new ArrayList<parameterInformation>();
+
+                interpreterExecution newIep = new interpreterExecution(mainFunction);
+                newIep.convert(entry.getChild(6));
+                
+                mainFunction.intermediateCode = newIep;
             }
         }
     }
 
-    private dataTypes convertStringToDatatype(String input)
+    private         dataTypes                   convertStringToDatatype (String input)
     {
         switch (input.toLowerCase())
         {

@@ -9,35 +9,6 @@ options {
 
 // -----------------------------------------------------------------------------
 
-TOKEN_OPEN_B            :   '['
-                        ;
-
-TOKEN_CLOS_B            :   ']'
-                        ;
-
-TOKEN_OPEN_P            :   '('
-                        ;
-
-TOKEN_CLOS_P            :   ')'
-                        ;
-
-TOKEN_OPEN_S            :   '<<'
-                        ;
-
-TOKEN_CLOS_S            :   '>>'
-                        ;
-
-TOKEN_COMMA             :   ','
-                        ;
-
-TOKEN_SEMICOLON         :   ';'
-                        ;
-
-TOKEN_COLON             :   ':'
-                        ;
-
-// -----------------------------------------------------------------------------
-
 LOGIC_1                 :   'EQUAL'
                         |   'NOT_EQUAL'
                         |   'equal'
@@ -186,10 +157,39 @@ NUM                     :   ('0'..'9')+
                         |   ('0'..'9')* '.' ('0'..'9')+
                         ;
 
-STRING                  :   ('<')('A'..'Z' | 'a'..'z' | '0'..'9' | ' ' | '!' | '@' | '#' | '$' | '%' | '^' | '&' | '*' | '('| ')' | '-' | '=' | '?' | '/' | '_' | '+')*('>')
+STRING                  :   ('<')('A'..'Z' | 'a'..'z' | '0'..'9' | ' ' | '.' | ',' | '\'' | '"' | ':' | ';' | '!' | '@' | '#' | '$' | '%' | '^' | '&' | '*' | '('| ')' | '-' | '=' | '?' | '/' | '_' | '+')*('>')
                         ;
 
 WS                      :   (' ' | '\t' | '\r' | '\n')  -> channel(HIDDEN)
+                        ;
+
+// -----------------------------------------------------------------------------
+
+TOKEN_OPEN_B            :   '['
+                        ;
+
+TOKEN_CLOS_B            :   ']'
+                        ;
+
+TOKEN_OPEN_P            :   '('
+                        ;
+
+TOKEN_CLOS_P            :   ')'
+                        ;
+
+TOKEN_OPEN_S            :   '<<'
+                        ;
+
+TOKEN_CLOS_S            :   '>>'
+                        ;
+
+TOKEN_COMMA             :   ','
+                        ;
+
+TOKEN_SEMICOLON         :   ';'
+                        ;
+
+TOKEN_COLON             :   ':'
                         ;
 
 //PROGRAM START
@@ -199,47 +199,76 @@ s                       :   (package_declaration)* (function_declaration)* (main
 
 //OPERATIONS
 
-operator_bool1          :   operator_bool5   
-                        |   operator_bool4
-                        |   operator_bool3
-                        |   operator_bool2 (LOGIC_1 operator_bool2)*
+operator_bool1          :   expression_final    (LOGIC_1 operator_bool2)*
+                        |   expression5         (LOGIC_1 operator_bool2)*
+                        |   expression4         (LOGIC_1 operator_bool2)*
+                        |   expression3         (LOGIC_1 operator_bool2)*
+                        |   expression2         (LOGIC_1 operator_bool2)*
+                        |   expression1         (LOGIC_1 operator_bool2)*
+                        |   operator_bool5      (LOGIC_1 operator_bool2)*
+                        |   operator_bool4      (LOGIC_1 operator_bool2)*
+                        |   operator_bool3      (LOGIC_1 operator_bool2)*
+                        |   operator_bool2      (LOGIC_1 operator_bool2)*
                         ;
 
-operator_bool2          :   operator_bool5   
-                        |   operator_bool4
-                        |   operator_bool3 (LOGIC_2 operator_bool3)*
+operator_bool2          :   expression_final    (LOGIC_2 operator_bool3)*
+                        |   expression5         (LOGIC_2 operator_bool3)*
+                        |   expression4         (LOGIC_2 operator_bool3)*
+                        |   expression3         (LOGIC_2 operator_bool3)*
+                        |   expression2         (LOGIC_2 operator_bool3)*
+                        |   expression1         (LOGIC_2 operator_bool3)*
+                        |   operator_bool5      (LOGIC_2 operator_bool3)*
+                        |   operator_bool4      (LOGIC_2 operator_bool3)*
+                        |   operator_bool3      (LOGIC_2 operator_bool3)*
                         ;
 
-operator_bool3          :   operator_bool5   
-                        |   operator_bool4 (LOGIC_3 operator_bool4)*
+operator_bool3          :   expression_final    (LOGIC_3 operator_bool4)*
+                        |   expression5         (LOGIC_3 operator_bool4)*
+                        |   expression4         (LOGIC_3 operator_bool4)*
+                        |   expression3         (LOGIC_3 operator_bool4)*
+                        |   expression2         (LOGIC_3 operator_bool4)*
+                        |   expression1         (LOGIC_3 operator_bool4)*
+                        |   operator_bool5      (LOGIC_3 operator_bool4)*
+                        |   operator_bool4      (LOGIC_3 operator_bool4)*
                         ;
                         
-operator_bool4          :   operator_bool5   
+operator_bool4          :   expression_final
+                        |   expression5
+                        |   expression4
+                        |   expression3
+                        |   expression2
+                        |   expression1
+                        |   operator_bool5   
                         |   TOKEN_OPEN_P operator_bool1 TOKEN_CLOS_P
                         ;
 
-operator_bool5          :   TOKEN_NOT TOKEN_OPEN_P operator_bool1 TOKEN_CLOS_P
+operator_bool5          :   expression_final
+                        |   expression5
+                        |   expression4
+                        |   expression3
+                        |   expression2
                         |   expression1
+                        |   TOKEN_NOT TOKEN_OPEN_P operator_bool1 TOKEN_CLOS_P
                         ;
 
 //EXPRESSIONS
 
-expression1             :   expression_final
-                        |   expression5
-                        |   expression4
-                        |   expression3
-                        |   expression2 (ARTH_1 expression2)*
+expression1             :   expression_final    (ARTH_1 expression2)*
+                        |   expression5         (ARTH_1 expression2)*
+                        |   expression4         (ARTH_1 expression2)*
+                        |   expression3         (ARTH_1 expression2)*
+                        |   expression2         (ARTH_1 expression2)*
                         ;
 
-expression2             :   expression_final
-                        |   expression5
-                        |   expression4
-                        |   expression3 (ARTH_2 expression3)*
+expression2             :   expression_final    (ARTH_2 expression3)*
+                        |   expression5         (ARTH_2 expression3)*
+                        |   expression4         (ARTH_2 expression3)*
+                        |   expression3         (ARTH_2 expression3)*
                         ;
 
-expression3             :   expression_final
-                        |   expression5
-                        |   expression4 (ARTH_3 expression4)*
+expression3             :   expression_final    (ARTH_3 expression4)*
+                        |   expression5         (ARTH_3 expression4)*
+                        |   expression4         (ARTH_3 expression4)*
                         ;
 
 expression4             :   expression_final
@@ -293,7 +322,17 @@ declare_statement       :   TOKEN_DECLARE ID TOKEN_AS TYPE TOKEN_SEMICOLON
 assignment_statement    :   ID TOKEN_IS expression1 TOKEN_SEMICOLON
                         ;
 
-logical_statement       :   operator_bool1
+logical_statement       :   expression_final
+                        |   expression5
+                        |   expression4
+                        |   expression3
+                        |   expression2
+                        |   expression1
+                        |   operator_bool5
+                        |   operator_bool4
+                        |   operator_bool3
+                        |   operator_bool2
+                        |   operator_bool1
                         ;
 
 conditional_statement   :   TOKEN_IF TOKEN_OPEN_B (logical_statement) TOKEN_CLOS_B group_statement (conditional_ELSEIF)* (conditional_ELSE)?

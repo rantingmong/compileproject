@@ -1,0 +1,11 @@
+grab <standard>;
+
+function hello  [characters word]   returning nothing <<
+
+
+>>
+
+function main   []                  returning nothing <<
+
+    hello[<Hello world!>];
+>>

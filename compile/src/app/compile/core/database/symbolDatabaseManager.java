@@ -5,9 +5,9 @@ import java.util.List;
 
 public class symbolDatabaseManager
 {
-    private static symbolDatabaseManager instance;
+    private static symbolDatabaseManager            instance;
     
-    public 	static symbolDatabaseManager getInstance()
+    public 	static symbolDatabaseManager            getInstance     ()
     {
         if (instance == null)
             instance = new symbolDatabaseManager();
@@ -16,7 +16,7 @@ public class symbolDatabaseManager
     }
     
     
-    private final List<symbolDatabase> databaseList;
+    private final           List<symbolDatabase>     databaseList;
     
     private                 symbolDatabaseManager   ()
     {

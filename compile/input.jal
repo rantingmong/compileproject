@@ -23,6 +23,14 @@ function anotherFunction    [blank]                                     returnin
 
             printText[<Hello world!>];
         >>
+        is <b>: <<
+        
+            printText[<Minecraft is awesome!!>];
+        >>
+        else: <<
+        
+            printText[<I have nothing else to say...>];
+        >>
     >>
 >>
 

@@ -23,7 +23,7 @@ public class Main
     
     public static void 	            main            (String[] args) throws IOException {
         
-        new Main().process("input.jal");
+        new Main().process("test1.jal");
     }
 
     public void process	        	(String input) throws IOException {
