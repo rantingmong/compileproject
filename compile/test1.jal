@@ -7,5 +7,5 @@ function hello  [characters word]   returning nothing <<
 
 function main   []                  returning nothing <<
 
-    hello[<Hello world!>];
+    hello[(NOT(TRUE AND TRUE) LTE (FALSE AND FALSE)) EQUAL (20 SUBS EQUAL hello[<Hi!>])];
 >>

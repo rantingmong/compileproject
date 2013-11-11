@@ -7,7 +7,7 @@ function factorial          [whole_number number, whole_number number2] returnin
 		returning 1;
 	>>
     else <<
-        returning number MUL factorial[number SUB 1];
+        returning number MUL factorial[number SUBS];
     >>
     
     if [TRUE] <<
@@ -35,8 +35,8 @@ function anotherFunction    [blank]                                     returnin
 >>
 
 function someComplexLogic   [blank]                                     returning nothing <<
-
-    if [((TRUE AND TRUE) LTE (FALSE AND FALSE)) EQUAL (20 EQUAL TRUE)] <<
+    
+    if [(NOT(TRUE AND TRUE) LTE (FALSE AND FALSE)) EQUAL (20 SUBS EQUAL anotherFunction[])] <<
     
     >>
 >>

@@ -291,14 +291,21 @@ package_declaration     :   TOKEN_GRAB STRING TOKEN_SEMICOLON
 main_function           :   TOKEN_FUNCTION TOKEN_MAIN TOKEN_OPEN_B TOKEN_CLOS_B TOKEN_RETURNING TYPE group_statement
                         ;
 
-function_declaration	:   TOKEN_FUNCTION ID TOKEN_OPEN_B (parameter)* TOKEN_CLOS_B TOKEN_RETURNING TYPE group_statement
+function_declaration	:   TOKEN_FUNCTION ID TOKEN_OPEN_B parameter TOKEN_CLOS_B TOKEN_RETURNING TYPE group_statement
                         ;
 
-parameter               :   (TYPE ID)(TOKEN_COMMA TYPE ID)*
+parameter               :   (parameter_entry)(TOKEN_COMMA parameter_entry)*
+                        ;
+
+parameter_entry         :   TYPE ID
                         |   TOKEN_NO_PARAM
                         ;
 
-function_call           :   ID TOKEN_OPEN_B expression1 (TOKEN_COMMA expression1)* TOKEN_CLOS_B
+function_call           :   ID TOKEN_OPEN_B function_arguments TOKEN_CLOS_B
+                        ;
+
+function_arguments      :   (logical_statement)?
+                        |   (logical_statement)(TOKEN_COMMA logical_statement)*
                         ;
 
 //STATEMENTS
@@ -312,14 +319,14 @@ statement               :   declare_statement
                         |   conditional_statement
                         |   loop_statement
                         |   function_call TOKEN_SEMICOLON
-                        |   TOKEN_RETURNING expression1 TOKEN_SEMICOLON
+                        |   TOKEN_RETURNING logical_statement TOKEN_SEMICOLON
                         ;
 
 declare_statement       :   TOKEN_DECLARE ID TOKEN_AS TYPE TOKEN_SEMICOLON
-                        |   TOKEN_DECLARE ID TOKEN_AS TYPE TOKEN_TO expression1 TOKEN_SEMICOLON
+                        |   TOKEN_DECLARE ID TOKEN_AS TYPE TOKEN_TO logical_statement TOKEN_SEMICOLON
                         ;
 
-assignment_statement    :   ID TOKEN_IS expression1 TOKEN_SEMICOLON
+assignment_statement    :   ID TOKEN_IS logical_statement TOKEN_SEMICOLON
                         ;
 
 logical_statement       :   expression_final
