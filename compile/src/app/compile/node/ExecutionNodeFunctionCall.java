@@ -79,7 +79,8 @@ public class ExecutionNodeFunctionCall extends ExecutionNode
                 database.entries.add(paramEntry);
             }
             
-            state.currentScope = database;
+            state.currentScope  = database;
+            state.returnValue   = null;
             
             // get the function's statements and run it here.
             program.processNode(state, callingFunction.functionStatements);

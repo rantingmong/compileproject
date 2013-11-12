@@ -248,7 +248,7 @@ operator_bool5          :   expression_final
                         |   expression3
                         |   expression2
                         |   expression1
-                        |   TOKEN_NOT TOKEN_OPEN_P operator_bool1 TOKEN_CLOS_P
+                        |   TOKEN_NOT TOKEN_OPEN_P logical_statement TOKEN_CLOS_P
                         ;
 
 //EXPRESSIONS

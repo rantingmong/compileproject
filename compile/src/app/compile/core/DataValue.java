@@ -40,4 +40,9 @@ public class DataValue
     {
         return value;
     }
+    
+    public boolean      valueAsTorf     ()
+    {
+        return Boolean.valueOf(value.toLowerCase());
+    }
 }
