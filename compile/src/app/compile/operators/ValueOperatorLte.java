@@ -26,9 +26,11 @@ public class ValueOperatorLte extends ValueOperator
             
             return new DataValue(DataType.TORF, ((lhsValue ? 1 : 0) <= (rhsValue ? 1 : 0)) + "");
         }
-
-        System.err.println("Less than or equal to operation was not successful. Returning default value of FALSE.");
-        
-        return new DataValue(DataType.TORF, "FALSE");
+        else
+        {
+            System.err.println("Less than or equal to operation was not successful. Returning default value of FALSE.");
+            
+            return new DataValue(DataType.TORF, "FALSE");
+        }
     }
 }

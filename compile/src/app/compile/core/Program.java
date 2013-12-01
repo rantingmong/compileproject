@@ -77,6 +77,22 @@ public class Program
         }
     }
 
+    /**
+     * 
+     * Use this method to return to the outer scope of the execution. (eg: break, continue, and return statements)
+     * 
+     * @param pt Reference to the parse tree.
+     */
+    public void                             jumpToParent        (ParseTree pt)
+    {
+        
+    }
+
+    public void                             informError         ()
+    {
+        
+    }
+
     private void                            step1               ()
     {
         // in step 1, we find all functions and packages

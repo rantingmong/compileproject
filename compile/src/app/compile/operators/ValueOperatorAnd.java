@@ -21,9 +21,11 @@ public class ValueOperatorAnd extends ValueOperator
             
             return new DataValue(DataType.TORF, (torflhs && torfrhs) + "");
         }
-        
-        System.err.println("And operation was not successful. Returning default value of FALSE.");
-        
-        return new DataValue(DataType.TORF, "FALSE");
+        else
+        {
+            System.err.println("And operation was not successful. Returning default value of FALSE.");
+            
+            return new DataValue(DataType.TORF, "FALSE");            
+        }
     }
 }

@@ -22,5 +22,10 @@ public class ValueOperatorManager
     {
         operators.add(new ValueOperatorAnd());
         operators.add(new ValueOperatorLte());
+        operators.add(new ValueOperatorLt());
+        operators.add(new ValueOperatorGte());
+        operators.add(new ValueOperatorGt());
+        operators.add(new ValueOperatorEquals());
+        operators.add(new ValueOperatorNotEquals());
     }
 }
