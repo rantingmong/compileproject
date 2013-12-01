@@ -2,11 +2,11 @@ package app.compile;
 
 import java.io.IOException;
 
-import org.antlr.v4.runtime.*;
+/*import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
 import app.compile.core.Program;
-import app.compile.parser.*;
+import app.compile.parser.*;*/
 
 public class Main
 {
@@ -27,14 +27,11 @@ public class Main
 
     public void process	        	(String input) throws IOException {
         
-        CharStream  stream  = new ANTLRFileStream(input);
+        /*CharStream  stream  = new ANTLRFileStream(input);
 
         codeLexer   lx      = new codeLexer(stream);
         TokenStream ts      = new CommonTokenStream(lx);
         codeParser  cp      = new codeParser(ts);
-        ParseTree   pt      = cp.s();
-        
-        Program     prog    = new Program(pt);
-        prog.run();
+        ParseTree   pt      = cp.s();*/
     }
 }
