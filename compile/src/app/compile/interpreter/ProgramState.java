@@ -5,6 +5,7 @@ import java.util.Stack;
 
 import app.compile.core.DataType;
 import app.compile.core.DataValue;
+
 import app.compile.database.SymbolDatabase;
 
 public class ProgramState
@@ -15,9 +16,14 @@ public class ProgramState
         public int            programCounter = 0;
 
         public SymbolDatabase functionScope  = new SymbolDatabase();
+        
+        public FuncStackEntry()
+        {
+            
+        }
     }
 
-    public Integer               PC             = 0;
+    public Interpreter           program        = null;
 
     public DataValue             RET            = new DataValue(DataType.NOTHING);
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import app.compile.core.DataType;
 import app.compile.core.DataValue;
-import app.compile.database.SymbolDatabase;
 import app.compile.database.SymbolDatabaseEntry;
 import app.compile.interpreter.ProgramState;
 import app.compile.util.Checker;
@@ -12,9 +11,9 @@ import app.compile.util.Checker;
 public abstract class OperatorCodeBinary extends OperatorCode
 {
     @Override
-    public void process(ProgramState state, SymbolDatabase currentScope, ArrayList<String> opCodeArgs)
+    public void process(ProgramState state, ArrayList<String> opCodeArgs)
     {
-        SymbolDatabaseEntry destination = currentScope.find(opCodeArgs.get(2));
+        SymbolDatabaseEntry destination = state.currentScope.find(opCodeArgs.get(2));
         
         DataValue lhs = null;
         DataValue rhs = null;
@@ -48,7 +47,7 @@ public abstract class OperatorCodeBinary extends OperatorCode
         // argument is not a constant. find it in the symbol database.
         else
         {
-            lhs = currentScope.find(lhsValue).dataValue;
+            lhs = state.currentScope.find(lhsValue).dataValue;
         }
 
         // rhs check
@@ -77,7 +76,7 @@ public abstract class OperatorCodeBinary extends OperatorCode
         // argument is not a constant. find it in the symbol database.
         else
         {
-            rhs = currentScope.find(rhsValue).dataValue;
+            rhs = state.currentScope.find(rhsValue).dataValue;
         }
 
         // perform the thingy!

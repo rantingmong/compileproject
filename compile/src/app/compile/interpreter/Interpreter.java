@@ -26,12 +26,22 @@ public class Interpreter
 
     private ArrayList<OperatorCode>  opCodeList   = new ArrayList<OperatorCode>();
 
-    public Interpreter(String ilCodeSource)
+    public                           Interpreter    (String ilCodeSource)
     {
 
     }
 
-    public void execute()
+    public boolean                   findFunction   (String functionName)
+    {
+        return false;
+    }
+    
+    public FuncCodeEntry             getFunction    (String functionName)
+    {
+        return null;
+    }
+    
+    public void                      execute        ()
     {
         // set curFunction to main
 
