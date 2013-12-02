@@ -3,7 +3,6 @@ package app.compile.interpreter.operatorcodes;
 import java.util.ArrayList;
 
 import app.compile.core.DataValue;
-import app.compile.database.SymbolDatabaseEntry;
 import app.compile.interpreter.ProgramState;
 import app.compile.interpreter.Interpreter.FuncCodeEntry;
 import app.compile.interpreter.ProgramState.FuncStackEntry;

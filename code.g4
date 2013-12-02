@@ -359,7 +359,7 @@ conditional_ELSEIF      :   TOKEN_ELSE TOKEN_IF TOKEN_OPEN_B logical_statement T
 conditional_ELSE        :   TOKEN_ELSE group_statement
                         ;
 
-loop_statement          :   TOKEN_REPEAT group_statement TOKEN_UNTIL TOKEN_OPEN_B logical_statement TOKEN_CLOS_B
+loop_statement          :   TOKEN_REPEAT group_statement TOKEN_UNTIL TOKEN_OPEN_B logical_statement TOKEN_CLOS_B TOKEN_SEMICOLON
                         |   TOKEN_REPEAT TOKEN_UNTIL TOKEN_OPEN_B logical_statement TOKEN_CLOS_B group_statement
 
                         |   TOKEN_REPEAT TYPE ID TOKEN_FROM expression1 TOKEN_TO expression1 group_statement

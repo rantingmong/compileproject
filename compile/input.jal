@@ -41,6 +41,25 @@ function someComplexLogic   [blank]                                     returnin
     >>
 >>
 
+function loopFunction       [blank]                                     returning nothing <<
+
+    repeat <<
+
+    >> until [TRUE];
+    
+    repeat until [TRUE] <<
+
+    >>
+    
+    repeat WHOLE_NUMBER i FROM 0 TO 10 <<
+
+    >>
+    
+    repeat WHOLE_NUMBER i FROM 100 TO 0 WITH i SUBS <<
+
+    >>
+>>
+
 function main[]                                                         returning nothing <<
 	
 	printText[factorial[46]];

@@ -15,13 +15,19 @@ import app.compile.database.SymbolDatabase;
  */
 public abstract class Converter
 {
+    public class ConverterResult
+    {
+        public ArrayList<String>    emmittedCode    = new ArrayList<String>();
+        public String               variableHandle  = "";
+    }
+    
     /**
      * 
      * Indicates if this production should also process child nodes.
      * 
      * @return
      */
-    public abstract boolean             processChildren ();
+    public abstract boolean         processChildren ();
     
     /**
      * 
@@ -29,7 +35,7 @@ public abstract class Converter
      * 
      * @return
      */
-    public abstract boolean             productionValid ();
+    public abstract boolean         productionValid (ParseTree parseTree);
     
-    public abstract ArrayList<String>   process         (ParseTree parseTree, Compiler compiler, SymbolDatabase scope);
+    public abstract ConverterResult process         (ParseTree parseTree, Compiler compiler, SymbolDatabase scope);
 }
