@@ -16,21 +16,23 @@ public class ProgramState
         public int            programCounter = 0;
 
         public SymbolDatabase functionScope  = new SymbolDatabase();
-        
+
         public FuncStackEntry()
         {
-            
+
         }
     }
 
-    public Interpreter           program        = null;
+    public Interpreter           program           = null;
 
-    public DataValue             RET            = new DataValue(DataType.NOTHING);
+    public DataValue             RET               = new DataValue(DataType.NOTHING);
 
-    public ArrayList<DataValue>  ARGS_LIST      = new ArrayList<DataValue>(20);
-    public ArrayList<DataValue>  PARAM_LIST     = new ArrayList<DataValue>(20);
+    public ArrayList<DataValue>  ARGS_LIST         = new ArrayList<DataValue>(20);
+    public ArrayList<DataValue>  PARAM_LIST        = new ArrayList<DataValue>(20);
 
-    public Stack<FuncStackEntry> FUNCTION_STACK = new Stack<FuncStackEntry>();
+    public Stack<FuncStackEntry> FUNCTION_STACK    = new Stack<FuncStackEntry>();
+    
+    public Stack<Boolean>        CONDITIONAL_STACK = new Stack<Boolean>();
 
-    public SymbolDatabase        currentScope   = new SymbolDatabase();
+    public SymbolDatabase        currentScope      = new SymbolDatabase();
 }

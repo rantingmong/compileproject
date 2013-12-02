@@ -3,26 +3,26 @@ package app.compile.interpreter.operatorcodes;
 import java.util.ArrayList;
 
 import app.compile.database.SymbolDatabaseEntry;
-import app.compile.interpreter.Interpreter.FuncCodeEntry;
 import app.compile.interpreter.ProgramState;
+import app.compile.interpreter.Interpreter.FuncCodeEntry;
 import app.compile.interpreter.ProgramState.FuncStackEntry;
 
-public class OperatorCodeJmp extends OperatorCode
+public class OperatorCodeIf extends OperatorCode
 {
     @Override
-    public boolean      incrementHandled    ()
+    public boolean incrementHandled()
     {
         return true;
     }
-    
+
     @Override
-    public String       getOperatorCode     ()
+    public String getOperatorCode()
     {
-        return "JMP";
+        return "IF";
     }
 
     @Override
-    public void         process             (ProgramState state, ArrayList<String> opCodeArgs)
+    public void process(ProgramState state, ArrayList<String> opCodeArgs)
     {
         boolean             finalValue  = false;
         SymbolDatabaseEntry entry       = state.currentScope.find(opCodeArgs.get(0)); 
@@ -41,27 +41,30 @@ public class OperatorCodeJmp extends OperatorCode
                             Integer.getInteger(opCodeArgs.get(0)) >= 1;
         }
 
-        // simple: if arg0 is true, find the count where jump is and jump there
+        // if check is true go to next line
         if (finalValue)
         {
-            // search for jump
+            state.CONDITIONAL_STACK.push(true);
+            state.FUNCTION_STACK.peek().programCounter += 1;
+        }
+        // we find nearest ELSEIF, ELSE, ENDIF
+        else
+        {
+            state.CONDITIONAL_STACK.push(false);
+            
             FuncStackEntry  functionStack   = state.FUNCTION_STACK.peek();
             FuncCodeEntry   functionHandle  = state.program.getFunction(functionStack.functionName);
-            String          searchQuery     = opCodeArgs.get(1) + ":";
             
-            for (int i = 0; i < functionHandle.ilCode.size(); i++)
+            for (int i = functionStack.programCounter; i < functionHandle.ilCode.size(); i++)
             {
-                if (searchQuery.equals(functionHandle.ilCode.get(i)))
+                if (functionHandle.ilCode.get(i).toLowerCase().contains("ELSEIF")   ||
+                    functionHandle.ilCode.get(i).toLowerCase().contains("ELSE")     ||
+                    functionHandle.ilCode.get(i).toLowerCase().contains("ENDIF"))
                 {
                     functionStack.programCounter = i;
                     break;
                 }
             }
-        }
-        else
-        {
-            // we just increment program counter by 1
-            state.FUNCTION_STACK.peek().programCounter += 1;
         }
     }
 }

@@ -23,12 +23,26 @@ public class DataValue
     
     public float        valueAsFloat    ()
     {
-        return Float.parseFloat(value);
+        try
+        {
+            return Float.parseFloat(value);
+        }
+        catch (NumberFormatException nfe)
+        {
+            return 0;
+        }
     }
     
     public int          valueAsInt      ()
     {
-        return Integer.parseInt(value);
+        try
+        {
+            return Integer.parseInt(value);
+        }
+        catch (NumberFormatException nfe)
+        {
+            return 0;
+        }
     }
     
     public char         valueAsChar     ()
@@ -43,6 +57,17 @@ public class DataValue
     
     public boolean      valueAsTorf     ()
     {
-        return Boolean.valueOf(value.toLowerCase());
+        if      (value.toLowerCase().equals("true"))
+        {
+            return true;
+        }
+        else if (value.toLowerCase().equals("false"))
+        {
+            return false;
+        }
+        else
+        {
+            return valueAsInt() >= 1;
+        }
     }
 }
