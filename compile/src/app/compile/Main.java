@@ -2,11 +2,10 @@ package app.compile;
 
 import java.io.IOException;
 
-/*import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.*;
 
-import app.compile.core.Program;
-import app.compile.parser.*;*/
+import app.compile.parser.*;
+import app.compile.parser.codeParser.Conditional_statementContext;
 
 public class Main
 {
@@ -22,16 +21,19 @@ public class Main
     
     public static void 	            main            (String[] args) throws IOException {
         
-        new Main().process("test1.jal");
+        new Main().process("input.jal");
     }
 
     public void process	        	(String input) throws IOException {
-        
-        /*CharStream  stream  = new ANTLRFileStream(input);
 
-        codeLexer   lx      = new codeLexer(stream);
-        TokenStream ts      = new CommonTokenStream(lx);
-        codeParser  cp      = new codeParser(ts);
-        ParseTree   pt      = cp.s();*/
+        codeLexer               lx      = new codeLexer         (new ANTLRFileStream(input));
+        codeParser              cp      = new codeParser        (new CommonTokenStream (lx));
+        
+                                cp.setBuildParseTree(true);
+                                cp.setTrimParseTree(true);
+
+        codeParser.SContext     pt      = cp.s();
+
+        System.out.println(pt.getText());
     }
 }

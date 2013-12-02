@@ -3,8 +3,8 @@ package app.compile.interpreter.operatorcodes;
 import java.util.ArrayList;
 
 import app.compile.core.DataValue;
-import app.compile.database.SymbolDatabaseEntry;
 import app.compile.interpreter.ProgramState;
+import app.compile.util.ValueGetter;
 
 public class OperatorCodeAsg extends OperatorCode
 {
@@ -17,15 +17,18 @@ public class OperatorCodeAsg extends OperatorCode
     @Override
     public void process(ProgramState state, ArrayList<String> opCodeArgs)
     {
-        SymbolDatabaseEntry modifyEntry = state.currentScope.find(opCodeArgs.get(0));
+        String      destination         = opCodeArgs.get(0);
+        String      value               = opCodeArgs.get(1);
         
-        if (modifyEntry != null)
+        DataValue   destinationValue    = ValueGetter.getValue(destination, state, state.currentScope);
+        
+        if (destinationValue != null)
         {
-            modifyEntry.dataValue = new DataValue(modifyEntry.dataType, opCodeArgs.get(1)); 
+            destinationValue.setValue(value);
         }
         else
         {
-            // TODO: error handling
+            // TODO: error checking
         }
     }
 }

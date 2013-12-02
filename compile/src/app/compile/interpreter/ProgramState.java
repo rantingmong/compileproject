@@ -16,11 +16,6 @@ public class ProgramState
         public int            programCounter = 0;
 
         public SymbolDatabase functionScope  = new SymbolDatabase();
-
-        public FuncStackEntry()
-        {
-
-        }
     }
 
     public Interpreter           program           = null;

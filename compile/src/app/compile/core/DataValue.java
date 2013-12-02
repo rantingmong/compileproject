@@ -21,6 +21,11 @@ public class DataValue
         return dataType;
     }
     
+    public void         setValue        (String value)
+    {
+        this.value = value;
+    }
+    
     public float        valueAsFloat    ()
     {
         try

@@ -347,7 +347,7 @@ conditional_statement   :   TOKEN_IF TOKEN_OPEN_B (logical_statement) TOKEN_CLOS
                         |   TOKEN_CHECK TOKEN_IF TOKEN_OPEN_B ID TOKEN_CLOS_B TOKEN_OPEN_S (conditional_CASE)+ (conditional_DEFAULT)? TOKEN_CLOS_S
                         ;
 
-conditional_CASE        :   TOKEN_IS (ID | NUM | STRING | TOKEN_TORF) TOKEN_COLON group_statement   
+conditional_CASE        :   TOKEN_IS (NUM | STRING | TOKEN_TORF) TOKEN_COLON group_statement   
                         ;
 
 conditional_DEFAULT     :   TOKEN_ELSE TOKEN_COLON group_statement   

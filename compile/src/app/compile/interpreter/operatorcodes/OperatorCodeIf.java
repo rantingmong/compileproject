@@ -2,10 +2,12 @@ package app.compile.interpreter.operatorcodes;
 
 import java.util.ArrayList;
 
-import app.compile.database.SymbolDatabaseEntry;
+import app.compile.core.DataValue;
+import app.compile.database.SymbolDatabase;
 import app.compile.interpreter.ProgramState;
 import app.compile.interpreter.Interpreter.FuncCodeEntry;
 import app.compile.interpreter.ProgramState.FuncStackEntry;
+import app.compile.util.ValueGetter;
 
 public class OperatorCodeIf extends OperatorCode
 {
@@ -24,25 +26,14 @@ public class OperatorCodeIf extends OperatorCode
     @Override
     public void process(ProgramState state, ArrayList<String> opCodeArgs)
     {
-        boolean             finalValue  = false;
-        SymbolDatabaseEntry entry       = state.currentScope.find(opCodeArgs.get(0)); 
+        DataValue       entry       = ValueGetter.getValue(opCodeArgs.get(0), state, state.currentScope);
         
-        // resolve resolve!
+        SymbolDatabase  ifDatabase          = new SymbolDatabase();
+                        ifDatabase.parent   = state.currentScope;
         
-        // value is a variable
-        if (entry != null)
-        {
-            finalValue = entry.dataValue.valueAsTorf();
-        }
-        // value is a constant
-        else
-        {
-            finalValue =    opCodeArgs.get(0).toLowerCase().equals("true") ||
-                            Integer.getInteger(opCodeArgs.get(0)) >= 1;
-        }
-
-        // if check is true go to next line
-        if (finalValue)
+        state.currentScope = ifDatabase;
+                        
+        if (entry.valueAsTorf())
         {
             state.CONDITIONAL_STACK.push(true);
             state.FUNCTION_STACK.peek().programCounter += 1;
@@ -51,10 +42,10 @@ public class OperatorCodeIf extends OperatorCode
         else
         {
             state.CONDITIONAL_STACK.push(false);
-            
+
             FuncStackEntry  functionStack   = state.FUNCTION_STACK.peek();
             FuncCodeEntry   functionHandle  = state.program.getFunction(functionStack.functionName);
-            
+
             for (int i = functionStack.programCounter; i < functionHandle.ilCode.size(); i++)
             {
                 if (functionHandle.ilCode.get(i).toLowerCase().contains("ELSEIF")   ||

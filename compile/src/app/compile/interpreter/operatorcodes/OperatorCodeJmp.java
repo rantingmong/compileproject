@@ -2,10 +2,11 @@ package app.compile.interpreter.operatorcodes;
 
 import java.util.ArrayList;
 
-import app.compile.database.SymbolDatabaseEntry;
+import app.compile.core.DataValue;
 import app.compile.interpreter.Interpreter.FuncCodeEntry;
 import app.compile.interpreter.ProgramState;
 import app.compile.interpreter.ProgramState.FuncStackEntry;
+import app.compile.util.ValueGetter;
 
 public class OperatorCodeJmp extends OperatorCode
 {
@@ -24,25 +25,9 @@ public class OperatorCodeJmp extends OperatorCode
     @Override
     public void         process             (ProgramState state, ArrayList<String> opCodeArgs)
     {
-        boolean             finalValue  = false;
-        SymbolDatabaseEntry entry       = state.currentScope.find(opCodeArgs.get(0)); 
-        
-        // resolve resolve!
-        
-        // value is a variable
-        if (entry != null)
-        {
-            finalValue = entry.dataValue.valueAsTorf();
-        }
-        // value is a constant
-        else
-        {
-            finalValue =    opCodeArgs.get(0).toLowerCase().equals("true") ||
-                            Integer.getInteger(opCodeArgs.get(0)) >= 1;
-        }
+        DataValue entry = ValueGetter.getValue(opCodeArgs.get(0), state, state.currentScope); 
 
-        // simple: if arg0 is true, find the count where jump is and jump there
-        if (finalValue)
+        if (entry.valueAsTorf())
         {
             // search for jump
             FuncStackEntry  functionStack   = state.FUNCTION_STACK.peek();

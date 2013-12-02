@@ -15,6 +15,8 @@ public class OperatorCodeEndIf extends OperatorCode
     @Override
     public void process(ProgramState state, ArrayList<String> opCodeArgs)
     {
+        state.currentScope = state.currentScope.parent;
+        
         // next line...
         state.CONDITIONAL_STACK.pop();
     }

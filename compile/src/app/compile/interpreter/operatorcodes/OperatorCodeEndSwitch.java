@@ -15,6 +15,8 @@ public class OperatorCodeEndSwitch extends OperatorCode
     @Override
     public void process(ProgramState state, ArrayList<String> opCodeArgs)
     {
+        state.currentScope = state.currentScope.parent;
+
         state.CONDITIONAL_STACK.pop();
     }
 }

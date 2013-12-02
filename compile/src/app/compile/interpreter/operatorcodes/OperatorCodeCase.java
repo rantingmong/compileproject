@@ -2,10 +2,12 @@ package app.compile.interpreter.operatorcodes;
 
 import java.util.ArrayList;
 
+import app.compile.core.DataValue;
 import app.compile.database.SymbolDatabaseEntry;
 import app.compile.interpreter.ProgramState;
 import app.compile.interpreter.Interpreter.FuncCodeEntry;
 import app.compile.interpreter.ProgramState.FuncStackEntry;
+import app.compile.util.ValueGetter;
 
 public class OperatorCodeCase extends OperatorCode
 {
@@ -35,10 +37,9 @@ public class OperatorCodeCase extends OperatorCode
         }
         else
         {
-            // input is not a constant always
-            SymbolDatabaseEntry entry = state.currentScope.find(opCodeArgs.get(0));
+            DataValue entry = ValueGetter.getValue(opCodeArgs.get(0), state, state.currentScope);
             
-            if (entry.dataValue.valueAsTorf())
+            if (entry.valueAsTorf())
             {
                 state.CONDITIONAL_STACK.pop();
                 state.CONDITIONAL_STACK.push(true);
