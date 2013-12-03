@@ -18,7 +18,23 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitLoop_for(@NotNull codeParser.Loop_forContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitConditional_CASE(@NotNull codeParser.Conditional_CASEContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitConditionl_SWITCH(@NotNull codeParser.Conditionl_SWITCHContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -43,6 +59,14 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitConditional_DEFAULT(@NotNull codeParser.Conditional_DEFAULTContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitConditional_IF(@NotNull codeParser.Conditional_IFContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -243,6 +267,22 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitFunction_call(@NotNull codeParser.Function_callContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitLoop_WHILE(@NotNull codeParser.Loop_WHILEContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitLoop_DO_WHILE(@NotNull codeParser.Loop_DO_WHILEContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

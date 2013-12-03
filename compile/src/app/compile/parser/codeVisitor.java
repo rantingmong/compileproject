@@ -12,11 +12,25 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link codeParser#loop_for}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLoop_for(@NotNull codeParser.Loop_forContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link codeParser#conditional_CASE}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitConditional_CASE(@NotNull codeParser.Conditional_CASEContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link codeParser#conditionl_SWITCH}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditionl_SWITCH(@NotNull codeParser.Conditionl_SWITCHContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link codeParser#loop_statement}.
@@ -38,6 +52,13 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitConditional_DEFAULT(@NotNull codeParser.Conditional_DEFAULTContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link codeParser#conditional_IF}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditional_IF(@NotNull codeParser.Conditional_IFContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link codeParser#parameter}.
@@ -213,6 +234,20 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunction_call(@NotNull codeParser.Function_callContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link codeParser#loop_WHILE}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLoop_WHILE(@NotNull codeParser.Loop_WHILEContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link codeParser#loop_DO_WHILE}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLoop_DO_WHILE(@NotNull codeParser.Loop_DO_WHILEContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link codeParser#operator_bool5}.

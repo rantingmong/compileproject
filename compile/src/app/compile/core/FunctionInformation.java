@@ -12,6 +12,8 @@ public class FunctionInformation
         void execute(ProgramState state, SymbolDatabase scope);
     }
 
+    public int                             varCount      = 0;
+
     public boolean                         isNative      = false;
 
     public String                          functionName  = "";
@@ -22,4 +24,11 @@ public class FunctionInformation
     public ArrayList<String>               ilCode        = new ArrayList<String>();
 
     public NativeAction                    nativeAction  = null;
+    
+    public int                             newVariable   ()
+    {
+        varCount++;
+
+        return varCount;
+    }
 }

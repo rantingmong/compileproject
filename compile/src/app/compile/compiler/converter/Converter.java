@@ -1,9 +1,8 @@
 package app.compile.compiler.converter;
 
-import java.util.ArrayList;
-
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import app.compile.compiler.JalCompiler;
 import app.compile.database.SymbolDatabase;
 
 /**
@@ -15,19 +14,13 @@ import app.compile.database.SymbolDatabase;
  */
 public abstract class Converter
 {
-    public class ConverterResult
-    {
-        public ArrayList<String>    emmittedCode    = new ArrayList<String>();
-        public String               variableHandle  = "";
-    }
-    
     /**
      * 
      * Indicates if this production should also process child nodes.
      * 
      * @return
      */
-    public abstract boolean         processChildren ();
+    public abstract boolean     processChildren ();
     
     /**
      * 
@@ -35,7 +28,7 @@ public abstract class Converter
      * 
      * @return
      */
-    public abstract boolean         productionValid (ParseTree parseTree);
+    public abstract boolean     productionValid (ParseTree parseTree);
     
-    public abstract ConverterResult process         (ParseTree parseTree, Compiler compiler, SymbolDatabase scope);
+    public abstract String      process         (ParseTree parseTree, JalCompiler compiler, SymbolDatabase scope);
 }

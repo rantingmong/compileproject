@@ -1,10 +1,9 @@
 package app.compile.compiler.converter;
 
-import java.util.ArrayList;
-
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import app.compile.compiler.JalCompiler;
 import app.compile.core.DataType;
 import app.compile.database.SymbolDatabase;
 import app.compile.parser.codeParser;
@@ -32,8 +31,6 @@ public class ConverterLogicalStatement extends Converter
         public DataType      type;
     }
 
-    private ArrayList<String>   ilCode              = new ArrayList<String>();
-    
     @Override
     public boolean              processChildren     ()
     {
@@ -47,13 +44,9 @@ public class ConverterLogicalStatement extends Converter
     }
 
     @Override
-    public ConverterResult    process             (ParseTree parseTree, Compiler compiler, SymbolDatabase scope)
+    public String               process             (ParseTree parseTree, JalCompiler compiler, SymbolDatabase scope)
     {
-        ConverterResult cr                  = new ConverterResult();
-                        cr.emmittedCode     = ilCode;
-                        cr.variableHandle   = processLogicTree(parseTree, compiler, scope);
-
-        return cr;
+        return processLogicTree(parseTree, compiler, scope);
     }
 
     /**
@@ -65,7 +58,7 @@ public class ConverterLogicalStatement extends Converter
      * @param scope Variable scope.
      * @return Returns either resulting variable that this method use to convert or a constant if used against a constant type.
      */
-    public String               processLogicTree    (ParseTree parseTree, Compiler compiler, SymbolDatabase scope)
+    public String               processLogicTree    (ParseTree parseTree, JalCompiler compiler, SymbolDatabase scope)
     {
         if      (parseTree.getChildCount() == 1)
         {
@@ -103,11 +96,15 @@ public class ConverterLogicalStatement extends Converter
 
             String opr = parseTree.getChild(1).getText();
 
+            String var = "var" + compiler.curFunction.newVariable();
+
             // then we add this:
-            ilCode.add("DEC" + " " + "temp0 " + "NOTHING"); // TODO: change temp0 into something that's really working
-            ilCode.add(opr + " " + lhs + " " + rhs + " " + "temp0");
-            
-            return "temp0"; // return the resulting variable
+
+            // TODO: define type for var
+            compiler.curFunction.ilCode.add("DEC " + var + "NOTHING");
+            compiler.curFunction.ilCode.add(opr + " " + lhs + " " + rhs + " " + var);
+
+            return var; // return the resulting variable
         }
         else if (parseTree instanceof codeParser.Operator_bool4Context  ||
                  parseTree instanceof codeParser.Expression5Context)
@@ -123,25 +120,27 @@ public class ConverterLogicalStatement extends Converter
                 String ret = processLogicTree(parseTree.getChild(2), compiler, scope);
                 
                 // NOT operator
-                ilCode.add("NOT " + ret);
-                
+                compiler.curFunction.ilCode.add("NOT " + ret);
+
                 return ret;
             }
             else
             {
                 String res = processLogicTree(parseTree.getChild(0), compiler, scope);
                 String opr = parseTree.getChild(1).getText();
+
+                String var = "var" + compiler.curFunction.newVariable();
                 
                 // UNARY operator
-                ilCode.add("DEC " + "temp0" + "NOTHING");
-                ilCode.add("ASG " + "temp0 " + res);
+                compiler.curFunction.ilCode.add("DEC " + var + " NOTHING");
+                compiler.curFunction.ilCode.add("ASG " + var + " " + res);
                 
-                ilCode.add(opr + " " + "temp0 1");
+                compiler.curFunction.ilCode.add(opr + " " + var + " 1");
                 
-                return "temp0";
+                return var;
             }
         }
-        
+
         return null;
     }
 }

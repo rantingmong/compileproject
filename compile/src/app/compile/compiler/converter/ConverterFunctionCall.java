@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import app.compile.compiler.JalCompiler;
 import app.compile.database.SymbolDatabase;
 import app.compile.parser.codeParser;
 import app.compile.parser.codeParser.Function_callContext;
@@ -24,15 +25,14 @@ public class ConverterFunctionCall extends Converter
     }
 
     @Override
-    public ConverterResult process(ParseTree parseTree, Compiler compiler, SymbolDatabase scope)
+    public String process(ParseTree parseTree, JalCompiler compiler, SymbolDatabase scope)
     {
         // TODO: check if function exists
         
         // TODO: check for parameter correctness
         
         // TODO: get return type of function
-        
-        ArrayList<String>                   result  = new ArrayList<String>();
+
         Function_callContext                fcc     = (Function_callContext) parseTree;
         ArrayList<Logical_statementContext> args    = new ArrayList<codeParser.Logical_statementContext>(fcc.function_arguments().logical_statement());
 
@@ -40,24 +40,18 @@ public class ConverterFunctionCall extends Converter
         int i = 0;
         for (Logical_statementContext arg : args)
         {
-            ConverterResult value = new ConverterLogicalStatement().process(arg, compiler, scope);
-            result.add("ASG param" + (i++) + " " + value.variableHandle);
+            String value = new ConverterLogicalStatement().process(arg, compiler, scope);
+            compiler.curFunction.ilCode.add("ASG param" + (i++) + " " + value);
         }
         
-        result.add("CAL " + fcc.ID().getText());
+        compiler.curFunction.ilCode.add("CAL " + fcc.ID().getText());
 
-        // we're doing this just in case there's multiple function calls going
-        // back and forth.
-        // obviously i'll add an if statement here if the function returns
-        // nothing.
-        result.add("ASG temp0 RET"); // TODO: define what variable this would
-                                     // return
+        String retVal = "val" + compiler.curFunction.newVariable();
+        
+        // we're doing this just in case there's multiple function calls going back and forth.
+        // obviously i'll add an if statement here if the function returns nothing.
+        compiler.curFunction.ilCode.add("ASG " + retVal + " RET");
 
-        ConverterResult cr = new ConverterResult();
-        cr.emmittedCode = result;
-
-        cr.variableHandle = "temp0"; // TODO: define what variable this would
-                                     // return
-        return cr;
+        return retVal; //TODO: define what variable this would return
     }
 }

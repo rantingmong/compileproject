@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import app.compile.compiler.JalCompiler;
+import app.compile.core.FunctionInformation;
 import app.compile.database.SymbolDatabase;
 import app.compile.parser.codeParser;
 import app.compile.parser.codeParser.Function_declarationContext;
@@ -11,7 +13,6 @@ import app.compile.parser.codeParser.Parameter_entryContext;
 
 public class ConverterFunctionDeclaration extends Converter
 {
-
     @Override
     public boolean processChildren()
     {
@@ -25,12 +26,14 @@ public class ConverterFunctionDeclaration extends Converter
     }
 
     @Override
-    public ConverterResult process(ParseTree parseTree, Compiler compiler, SymbolDatabase scope)
+    public String process(ParseTree parseTree, JalCompiler compiler, SymbolDatabase scope)
     {
-        ArrayList<String>           result              = new ArrayList<String>();
         Function_declarationContext functionDeclaration = (Function_declarationContext)parseTree;
         
+        FunctionInformation         newFunction         = new FunctionInformation();
         StringBuilder               returnString        = new StringBuilder();
+        
+        compiler.curFunction        = newFunction;
         
         returnString.append("FUNCTION");
         returnString.append(functionDeclaration.ID().getText());
@@ -52,13 +55,10 @@ public class ConverterFunctionDeclaration extends Converter
         
         returnString.append("]");
         
-        result.add(returnString.toString());
+        compiler.curFunction.ilCode.add(returnString.toString());
         
-        // emmitt the code for this function
-        
-        ConverterResult cr              = new ConverterResult();
-                        cr.emmittedCode = result;
-        
-        return cr;
+        // TODO: emit the code for this function
+
+        return "";
     }
 }

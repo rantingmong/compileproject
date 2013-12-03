@@ -1,9 +1,0 @@
-1.) Imma use a state machine or PDA to check between different states.
-2.) Most productions will have a corresponding production* class in our code.
-3.) The parser will obviously be done by ANTLR but the syntax correctness will be checked by us.
-4.) Some production* classes can store data to the data store (like function declarations storing their information or variables).
-5.) Terminal nodes such as parenthesis, keywords, identifiers, constants, etc. will be handled by productionTerminal class.
-    a.) productionTerminal class will then convert the data into something our system can use and modify.
-6.) Logical nodes will be handled by a productionLogicalExpression class
-    a.) Any child nodes will not be processed by the mainParser. The productionLogicalExpression will be the one to process it (since this one is special along with arithmetic expressions).
-7.) Arithmetic nodes will be handled by a productionArithmeticExpression class

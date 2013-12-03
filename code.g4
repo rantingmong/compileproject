@@ -1,4 +1,5 @@
-                        grammar code;
+grammar code;
+
 options {
 	
 }
@@ -342,9 +343,17 @@ logical_statement       :   expression_final
                         |   operator_bool1
                         ;
 
-conditional_statement   :   TOKEN_IF TOKEN_OPEN_B (logical_statement) TOKEN_CLOS_B group_statement (conditional_ELSEIF)* (conditional_ELSE)?
+conditional_statement   :   conditional_IF   
+                        |   conditional_SWITCH
+                        ;
 
-                        |   TOKEN_CHECK TOKEN_IF TOKEN_OPEN_B ID TOKEN_CLOS_B TOKEN_OPEN_S (conditional_CASE)+ (conditional_DEFAULT)? TOKEN_CLOS_S
+conditional_IF          :   TOKEN_IF TOKEN_OPEN_B (logical_statement) TOKEN_CLOS_B group_statement (conditional_ELSEIF)* (conditional_ELSE)?
+                        ;
+
+conditional_SWITCH      :   conditional_SWITCH_H TOKEN_OPEN_S (conditional_CASE)+ (conditional_DEFAULT)? TOKEN_CLOS_S
+                        ;
+
+conditional_SWITCH_H    :   TOKEN_CHECK TOKEN_IF TOKEN_OPEN_B ID TOKEN_CLOS_B
                         ;
 
 conditional_CASE        :   TOKEN_IS (NUM | STRING | TOKEN_TORF) TOKEN_COLON group_statement   
@@ -359,9 +368,17 @@ conditional_ELSEIF      :   TOKEN_ELSE TOKEN_IF TOKEN_OPEN_B logical_statement T
 conditional_ELSE        :   TOKEN_ELSE group_statement
                         ;
 
-loop_statement          :   TOKEN_REPEAT group_statement TOKEN_UNTIL TOKEN_OPEN_B logical_statement TOKEN_CLOS_B TOKEN_SEMICOLON
-                        |   TOKEN_REPEAT TOKEN_UNTIL TOKEN_OPEN_B logical_statement TOKEN_CLOS_B group_statement
+loop_statement          :   loop_DO_WHILE   
+                        |   loop_WHILE
+                        |   loop_for
+                        ;
 
-                        |   TOKEN_REPEAT TYPE ID TOKEN_FROM expression1 TOKEN_TO expression1 group_statement
+loop_DO_WHILE           :   TOKEN_REPEAT group_statement TOKEN_UNTIL TOKEN_OPEN_B logical_statement TOKEN_CLOS_B TOKEN_SEMICOLON
+                        ;
+
+loop_WHILE              :   TOKEN_REPEAT TOKEN_UNTIL TOKEN_OPEN_B logical_statement TOKEN_CLOS_B group_statement
+                        ;
+
+loop_for                :   TOKEN_REPEAT TYPE ID TOKEN_FROM expression1 TOKEN_TO expression1 group_statement
                         |   TOKEN_REPEAT TYPE ID TOKEN_FROM expression1 TOKEN_TO expression1 TOKEN_WITH expression1 group_statement
                         ;
