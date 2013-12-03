@@ -10,6 +10,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import app.compile.compiler.JalCompiler;
+import app.compile.compiler.converter.ConverterProgram;
+import app.compile.core.FunctionInformation;
 import app.compile.core.Program;
 import app.compile.parser.codeLexer;
 import app.compile.parser.codeParser;
@@ -157,18 +160,29 @@ public class Text extends JFrame implements ActionListener {
 	}
 	
 	public void process	        	(String input) throws IOException {
-        
-        CharStream  stream  = new ANTLRInputStream(input);
 
-        codeLexer   lx      = new codeLexer(stream);
-        TokenStream ts      = new CommonTokenStream(lx);
+        codeLexer               lx      = new codeLexer         (new ANTLRInputStream(input));
+        codeParser              cp      = new codeParser        (new CommonTokenStream (lx));
         
+                                cp.setBuildParseTree(true);
+                                cp.setTrimParseTree(true);
+
+        codeParser.SContext     pt      = cp.s();
+
+        JalCompiler            cmp      = new JalCompiler();
         
-        codeParser  cp      = new codeParser(ts);
-        ParseTree   pt      = cp.s();
-        
-        Program     prog    = new Program(pt);
-        prog.run();
+        ConverterProgram       cxp      = new ConverterProgram();
+                               cxp.process(pt, cmp);
+
+        for (FunctionInformation finfo : cmp.functionList)
+        {
+            for (String line : finfo.ilCode)
+            {
+                System.out.println(line);
+            }
+        }
+                               
+        System.out.println(cmp.functionList.size());
     }
 	
 	//The following codes set where the text get redirected. In this case, jTextArea1    
