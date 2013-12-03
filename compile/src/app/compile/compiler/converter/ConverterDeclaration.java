@@ -32,18 +32,18 @@ public class ConverterDeclaration extends Converter
             return null;
         }
         
-        SymbolDatabaseEntry newEntry = new SymbolDatabaseEntry();
-        
-        newEntry.name       = dsc.ID().getText();
-        newEntry.dataType   = Enum.valueOf(DataType.class, typ.toUpperCase());
-        
-        newEntry.entryType  = SymbolDatabaseEntryType.VARIABLE;
-        
-        newEntry.ilName     = var;
+        SymbolDatabaseEntry newEntry            = new SymbolDatabaseEntry();
+
+                            newEntry.name       = dsc.ID().getText();
+                            newEntry.dataType   = Enum.valueOf(DataType.class, typ.toUpperCase());
+
+                            newEntry.entryType  = SymbolDatabaseEntryType.VARIABLE;
+
+                            newEntry.ilName     = var;
 
         compiler.currentScope.entries.add(newEntry);
 
-        compiler.curFunction.ilCode.add("DEC " + var + " " + typ);
+        compiler.curFunction.ilCode.add("DEC " + var + " " + newEntry.dataType);
 
         if (dsc.logical_statement() != null)
         {

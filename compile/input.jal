@@ -1,9 +1,9 @@
 grab    <standard>;
 GRAB    <math>;
 
-function factorial          [whole_number number, whole_number number2] returning whole_number <<
+function factorial          [whole_number number]                       returning whole_number <<
 
-	if [number LTE number] <<
+	if [number LTE 1] <<
 		returning 1;
 	>>
     else <<
@@ -38,16 +38,18 @@ function anotherFunction    []                                          returnin
 
 function someComplexLogic   []                                          returning nothing <<
     
-    if [(NOT(TRUE AND TRUE) LTE (FALSE AND FALSE)) EQUAL (20 SUBS EQUAL anotherFunction[])] <<
+    if [(NOT(TRUE AND TRUE) LTE (FALSE AND FALSE))] <<
     
     >>
 >>
 
 function loopFunction       []                                          returning nothing <<
 
+    declare hehe as whole_number to 1;
+
     repeat <<
 
-    >> until [TRUE];
+    >> until [hehe ADDS LT 20];
     
     repeat until [TRUE] <<
 

@@ -8,6 +8,34 @@ import app.compile.interpreter.ProgramState;
 
 public class ValueGetter
 {
+    public static DataType inferType(String value)
+    {
+        if      (Checker.checkIfTokenIsChar(value))
+        {
+            return DataType.SYMBOL;
+        }
+        else if (Checker.checkIfTokenIsFloat(value))
+        {
+            return DataType.REAL_NUMBER;
+        }
+        else if (Checker.checkIfTokenIsNumber(value))
+        {
+            return DataType.WHOLE_NUMBER;
+        }
+        else if (Checker.checkIfTokenIsString(value))
+        {
+            return DataType.CHARACTERS;
+        }
+        else if (Checker.checkIfTokenIsTorf(value))
+        {
+            return DataType.TORF;
+        }
+        
+        System.err.println("Value was not infered! " + value);
+        
+        return DataType.NOTHING;
+    }
+    
     public static DataValue getValue(String input, ProgramState state, SymbolDatabase scope)
     {
         if      (Checker.checkIfTokenIsString(input))

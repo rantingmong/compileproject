@@ -30,7 +30,7 @@ public class ConverterStatement extends Converter
 
             new ConverterGroupStatement().process(statement, compiler);
 
-            compiler.currentScope = database;
+            compiler.currentScope = database.parent;
         }
         else if (statement instanceof codeParser.Assignment_statementContext)
         {

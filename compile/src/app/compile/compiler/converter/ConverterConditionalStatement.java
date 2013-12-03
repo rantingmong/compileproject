@@ -104,28 +104,41 @@ public class ConverterConditionalStatement extends Converter
             List<Conditional_CASEContext>   two = cxc.conditional_CASE();
             Conditional_DEFAULTContext      tri = cxc.conditional_DEFAULT();
 
-            SymbolDatabaseEntry entry = compiler.currentScope.find(one.ID().getText());
+            SymbolDatabaseEntry entry = compiler.currentScope.find(one.ID().getText(), false);
             
             if (entry == null)
             {
                 // TODO: error handling
-                
+                System.err.println("Variable " + one.ID().getText() + " cannot be found.");
+
                 return null;
             }
             
             String var = "var" + compiler.curFunction.newVariable();
-            compiler.curFunction.ilCode.add("DEC " + var + " NOTHING");
+            compiler.curFunction.ilCode.add("DEC " + var + " " + entry.dataType);
             compiler.curFunction.ilCode.add("ASG " + var + " " + entry.ilName);
             
+            SymbolDatabaseEntry checkEntry          = new SymbolDatabaseEntry();
+                                checkEntry.dataType = entry.dataType;
+                                checkEntry.ilName   = var;
+
+            compiler.currentScope.entries.add(checkEntry);
+
             ArrayList<String> results = new ArrayList<String>();
-            
+
             for (Conditional_CASEContext casec : two)
             {
                 String inVar = "var" + compiler.curFunction.newVariable();
                 
-                compiler.curFunction.ilCode.add("DEC " + inVar + " NOTHING");
+                compiler.curFunction.ilCode.add("DEC " + inVar + " TORF");
                 compiler.curFunction.ilCode.add("EQL " + casec.conditional_CASE_CONST().getText() + " " + var + " " + inVar);
                 
+                SymbolDatabaseEntry newEntry            = new SymbolDatabaseEntry();
+                                    newEntry.dataType   = entry.dataType;
+                                    newEntry.ilName     = inVar;
+                
+                compiler.currentScope.entries.add(newEntry);
+
                 results.add(inVar);
             }
             
@@ -146,7 +159,7 @@ public class ConverterConditionalStatement extends Converter
 
                 compiler.currentScope = indb.parent;
             }
-            
+
             if (tri != null)
             {
                 compiler.curFunction.ilCode.add("DEFAULT");

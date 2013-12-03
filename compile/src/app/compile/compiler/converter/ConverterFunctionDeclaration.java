@@ -25,11 +25,6 @@ public class ConverterFunctionDeclaration extends Converter
     @Override
     public String process(ParseTree parseTree, JalCompiler compiler)
     {
-        if (compiler.curFunction != null)
-        {
-            compiler.functionList.add(compiler.curFunction);
-        }
-
         Function_declarationContext functionDeclaration = (Function_declarationContext)parseTree;
 
         SymbolDatabase              functionDatabase            = new SymbolDatabase();
@@ -44,7 +39,9 @@ public class ConverterFunctionDeclaration extends Converter
 
         compiler.currentScope       = functionDatabase;
         compiler.curFunction        = newFunction;
-        
+
+        compiler.functionList.add(newFunction);
+
         returnString.append("FUNCTION ");
         returnString.append(functionDeclaration.ID().getText());
         
@@ -83,7 +80,6 @@ public class ConverterFunctionDeclaration extends Converter
 
         compiler.curFunction.ilCode.add(returnString.toString());
 
-        // TODO: emit the code for this function
         new ConverterGroupStatement().process(functionDeclaration.group_statement(), compiler);
 
         compiler.curFunction.ilCode.add("END");

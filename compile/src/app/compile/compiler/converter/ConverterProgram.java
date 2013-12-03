@@ -29,7 +29,7 @@ public class ConverterProgram extends Converter
         {
             new ConverterFunctionDeclaration().process(functionDec, compiler);
         }
-        
+
         return "";
     }
 }

@@ -13,6 +13,7 @@ public class FunctionInformation
     }
 
     public int                             varCount      = 0;
+    public int                             jmpCount      = 0;
 
     public boolean                         isNative      = false;
 
@@ -27,8 +28,11 @@ public class FunctionInformation
     
     public int                             newVariable   ()
     {
-        varCount++;
-
-        return varCount;
+        return varCount++;
+    }
+    
+    public int                             newJump       ()
+    {
+        return jmpCount++;
     }
 }

@@ -1,10 +1,24 @@
 package app.compile.util;
 
 import app.compile.core.DataType;
+import app.compile.database.SymbolDatabase;
+import app.compile.database.SymbolDatabaseEntry;
 
 public class TypeCoercer
 {
-    public static DataType coerceType(DataType lhs, DataType rhs)
+    public static DataType getDataType                          (SymbolDatabase database, String value, boolean ilName)
+    {
+        SymbolDatabaseEntry entry = database.find(value, ilName);
+        
+        if (entry != null)
+        {
+            return entry.dataType;
+        }
+        
+        return ValueGetter.inferType(value);
+    }
+    
+    public static DataType  coerceType                          (DataType lhs, DataType rhs)
     {
         int lhsRank = convertDataTypeToRank(lhs);
         int rhsRank = convertDataTypeToRank(rhs);
@@ -12,7 +26,54 @@ public class TypeCoercer
         return convertRankToDataType(Math.max(lhsRank, rhsRank));
     }
 
-    public static int convertDataTypeToRank(DataType type)
+    private static boolean[][] aMatrix = new boolean[][]
+    {
+        new boolean[] {  true,  true, false, false, false, false },
+        new boolean[] {  true,  true, false, false, false, false },
+        new boolean[] { false, false,  true,  true, false, false },
+        new boolean[] { false,  true,  true,  true, false, false },
+        new boolean[] { false, false, false, false,  true, false },
+        new boolean[] { false, false, false, false, false, false }
+    };
+
+    public static boolean   checkIfArithmeticallyCompatible     (DataType lhs, DataType rhs)
+    {
+        return aMatrix[convertDataTypeToInt(lhs)][convertDataTypeToInt(rhs)];
+    }
+
+    public static boolean   checkIfLogicallyCompatible          (DataType lhs, DataType rhs)
+    {
+        // we can only do boolean operations on both sides
+        if (lhs == DataType.TORF && rhs == DataType.TORF)
+        {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public static int convertDataTypeToInt(DataType type)
+    {
+        switch (type)
+        {
+        case SYMBOL:
+            return 0;
+        case CHARACTERS:
+            return 1;
+        case WHOLE_NUMBER:
+            return 2;
+        case REAL_NUMBER:
+            return 3;
+        case TORF:
+            return 4;
+        case NOTHING:
+            return 5;
+        }
+        
+        return -1;
+    }
+    
+    public static int       convertDataTypeToRank               (DataType type)
     {
         switch (type)
         {
@@ -31,7 +92,7 @@ public class TypeCoercer
         }
     }
 
-    public static DataType convertRankToDataType(int rank)
+    public static DataType  convertRankToDataType               (int rank)
     {
         switch (rank)
         {
