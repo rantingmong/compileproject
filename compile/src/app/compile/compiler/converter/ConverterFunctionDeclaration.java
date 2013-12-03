@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import app.compile.compiler.JalCompiler;
+import app.compile.core.DataType;
 import app.compile.core.FunctionInformation;
+import app.compile.core.ParameterInformation;
 import app.compile.database.SymbolDatabase;
+import app.compile.database.SymbolDatabaseEntry;
 import app.compile.parser.codeParser;
 import app.compile.parser.codeParser.Function_declarationContext;
 import app.compile.parser.codeParser.Parameter_entryContext;
@@ -14,25 +17,32 @@ import app.compile.parser.codeParser.Parameter_entryContext;
 public class ConverterFunctionDeclaration extends Converter
 {
     @Override
-    public boolean processChildren()
-    {
-        return false;
-    }
-
-    @Override
     public boolean productionValid(ParseTree parseTree)
     {
         return parseTree.getClass().equals(codeParser.Function_declarationContext.class);
     }
 
     @Override
-    public String process(ParseTree parseTree, JalCompiler compiler, SymbolDatabase scope)
+    public String process(ParseTree parseTree, JalCompiler compiler)
     {
+        if (compiler.curFunction != null)
+        {
+            compiler.functionList.add(compiler.curFunction);
+        }
+
         Function_declarationContext functionDeclaration = (Function_declarationContext)parseTree;
-        
-        FunctionInformation         newFunction         = new FunctionInformation();
-        StringBuilder               returnString        = new StringBuilder();
-        
+
+        SymbolDatabase              functionDatabase            = new SymbolDatabase();
+                                    functionDatabase.parent     = compiler.currentScope;
+
+        FunctionInformation         newFunction                 = new FunctionInformation();
+                                    newFunction.functionName    = functionDeclaration.ID().getText();
+                                    newFunction.isNative        = false;
+                                    newFunction.returnType      = Enum.valueOf(DataType.class, functionDeclaration.TYPE().getText());
+
+        StringBuilder               returnString                = new StringBuilder();
+
+        compiler.currentScope       = functionDatabase;
         compiler.curFunction        = newFunction;
         
         returnString.append("FUNCTION");
@@ -51,15 +61,33 @@ public class ConverterFunctionDeclaration extends Converter
             {
                 returnString.append(", ");
             }
+            
+            // add to scope the arguments
+            SymbolDatabaseEntry argEntry            = new SymbolDatabaseEntry();
+                                
+                                argEntry.ilName     = "arg" + i;
+                                argEntry.name       = paramList.get(i).ID().getText();
+                                argEntry.dataType   = Enum.valueOf(DataType.class, paramList.get(i).TYPE().getText());
+                                
+            functionDatabase.entries.add(argEntry);
+            
+            ParameterInformation paramInfo                  = new ParameterInformation();
+            
+                                 paramInfo.dataType         = argEntry.dataType;
+                                 paramInfo.parameterName    = argEntry.name;
+                                 
+             newFunction.parameterList.add(paramInfo);
         }
         
-        returnString.append("]");
-        
+        returnString.append("] " + functionDeclaration.TYPE().getText());
+
         compiler.curFunction.ilCode.add(returnString.toString());
-        
+
         // TODO: emit the code for this function
+        new ConverterGroupStatement().process(functionDeclaration.group_statement(), compiler);
 
         compiler.curFunction.ilCode.add("END");
+        compiler.currentScope = functionDatabase.parent;
 
         return "";
     }

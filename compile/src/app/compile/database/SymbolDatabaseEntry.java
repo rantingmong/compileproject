@@ -7,6 +7,8 @@ public class SymbolDatabaseEntry
 {
     public String                   name;
     
+    public String                   ilName;
+    
     public DataType                 dataType;
     public DataValue                dataValue;
     

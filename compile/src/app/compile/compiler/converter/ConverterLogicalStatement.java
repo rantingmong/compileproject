@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import app.compile.compiler.JalCompiler;
 import app.compile.core.DataType;
-import app.compile.database.SymbolDatabase;
+import app.compile.database.SymbolDatabaseEntry;
 import app.compile.parser.codeParser;
 import app.compile.parser.codeParser.Expression_finalContext;
 
@@ -32,21 +32,15 @@ public class ConverterLogicalStatement extends Converter
     }
 
     @Override
-    public boolean              processChildren     ()
-    {
-        return false;
-    }
-
-    @Override
     public boolean              productionValid     (ParseTree parseTree)
     {
         return parseTree.getClass().equals(codeParser.Logical_statementContext.class);
     }
 
     @Override
-    public String               process             (ParseTree parseTree, JalCompiler compiler, SymbolDatabase scope)
+    public String               process             (ParseTree parseTree, JalCompiler compiler)
     {
-        return processLogicTree(parseTree, compiler, scope);
+        return processLogicTree(parseTree, compiler);
     }
 
     /**
@@ -58,25 +52,33 @@ public class ConverterLogicalStatement extends Converter
      * @param scope Variable scope.
      * @return Returns either resulting variable that this method use to convert or a constant if used against a constant type.
      */
-    public String               processLogicTree    (ParseTree parseTree, JalCompiler compiler, SymbolDatabase scope)
+    public String               processLogicTree    (ParseTree parseTree, JalCompiler compiler)
     {
         if      (parseTree.getChildCount() == 1)
         {
             // for those nodes that only have one child
-            return processLogicTree(parseTree.getChild(0), compiler, scope);
+            return processLogicTree(parseTree.getChild(0), compiler);
         }
         else if (parseTree instanceof Expression_finalContext)
         {
             // LEAF NODE
             if (parseTree.getChild(0) instanceof TerminalNode)
             {
+                // TODO: if child is a variable, resolve that using the symbol database
+                SymbolDatabaseEntry entry = compiler.currentScope.find(parseTree.getChild(0).getText());
+                
+                if (entry != null)
+                {
+                    return entry.ilName;
+                }
+                
                 return parseTree.getChild(0).getText();
             }
             else
             {
                 // FUNCTION CALL. HANDLE THAT FUNCTION CALL FIRST. AND RETURN THE VARIABLE MADE BY THE FUNCTION CALL,
                 // which is RET.
-                new ConverterFunctionCall().process(parseTree.getChild(0), compiler, scope);
+                new ConverterFunctionCall().process(parseTree.getChild(0), compiler);
                 
                 return "RET";
             }
@@ -91,8 +93,8 @@ public class ConverterLogicalStatement extends Converter
             // OPERATOR NODE
             
             // convert lhs and rhs to il-code
-            String lhs = processLogicTree(parseTree.getChild(0), compiler, scope);
-            String rhs = processLogicTree(parseTree.getChild(2), compiler, scope);
+            String lhs = processLogicTree(parseTree.getChild(0), compiler);
+            String rhs = processLogicTree(parseTree.getChild(2), compiler);
 
             String opr = parseTree.getChild(1).getText();
 
@@ -110,14 +112,14 @@ public class ConverterLogicalStatement extends Converter
                  parseTree instanceof codeParser.Expression5Context)
         {
             // PARENTHESIS NODE
-            return processLogicTree(parseTree.getChild(1), compiler, scope);
+            return processLogicTree(parseTree.getChild(1), compiler);
         }
         else if (parseTree instanceof codeParser.Operator_bool5Context  ||
                  parseTree instanceof codeParser.Expression4Context)
         {
             if (parseTree instanceof codeParser.Operator_bool5Context)
             {
-                String ret = processLogicTree(parseTree.getChild(2), compiler, scope);
+                String ret = processLogicTree(parseTree.getChild(2), compiler);
                 
                 // NOT operator
                 compiler.curFunction.ilCode.add("NOT " + ret);
@@ -126,7 +128,7 @@ public class ConverterLogicalStatement extends Converter
             }
             else
             {
-                String res = processLogicTree(parseTree.getChild(0), compiler, scope);
+                String res = processLogicTree(parseTree.getChild(0), compiler);
                 String opr = parseTree.getChild(1).getText();
 
                 String var = "var" + compiler.curFunction.newVariable();

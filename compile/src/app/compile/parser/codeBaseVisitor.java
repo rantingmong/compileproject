@@ -130,6 +130,14 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitReturn_statement(@NotNull codeParser.Return_statementContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitOperator_bool3(@NotNull codeParser.Operator_bool3Context ctx) { return visitChildren(ctx); }
 
 	/**
@@ -178,6 +186,14 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitAssignment_statement(@NotNull codeParser.Assignment_statementContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitExpression2(@NotNull codeParser.Expression2Context ctx) { return visitChildren(ctx); }
 
 	/**
@@ -187,14 +203,6 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitGroup_statement(@NotNull codeParser.Group_statementContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitAssignment_statement(@NotNull codeParser.Assignment_statementContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -258,6 +266,14 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitLoop_for_control(@NotNull codeParser.Loop_for_controlContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitParameter_entry(@NotNull codeParser.Parameter_entryContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -275,6 +291,14 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitFunction_call(@NotNull codeParser.Function_callContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitFunction_call_statement(@NotNull codeParser.Function_call_statementContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

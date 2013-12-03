@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import app.compile.core.FunctionInformation;
 import app.compile.core.PackageInformation;
+import app.compile.database.SymbolDatabase;
 
 /**
  * 
@@ -15,9 +16,11 @@ import app.compile.core.PackageInformation;
  */
 public class JalCompiler
 {
-    public final ArrayList<FunctionInformation> functionList    = new ArrayList<FunctionInformation>();
+    public final ArrayList<FunctionInformation> functionList = new ArrayList<FunctionInformation>();
 
-    public final ArrayList<PackageInformation>  packageList     = new ArrayList<PackageInformation>();
-    
-    public FunctionInformation                  curFunction     = null;
+    public final ArrayList<PackageInformation>  packageList  = new ArrayList<PackageInformation>();
+
+    public FunctionInformation                  curFunction  = null;
+
+    public SymbolDatabase                       currentScope = new SymbolDatabase();
 }

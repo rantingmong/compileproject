@@ -110,6 +110,13 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitOperator_bool4(@NotNull codeParser.Operator_bool4Context ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link codeParser#return_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturn_statement(@NotNull codeParser.Return_statementContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link codeParser#operator_bool3}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -152,6 +159,13 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitExpression1(@NotNull codeParser.Expression1Context ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link codeParser#assignment_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignment_statement(@NotNull codeParser.Assignment_statementContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link codeParser#expression2}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -164,13 +178,6 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitGroup_statement(@NotNull codeParser.Group_statementContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link codeParser#assignment_statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignment_statement(@NotNull codeParser.Assignment_statementContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link codeParser#expression_final}.
@@ -222,6 +229,13 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitStatement(@NotNull codeParser.StatementContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link codeParser#loop_for_control}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLoop_for_control(@NotNull codeParser.Loop_for_controlContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link codeParser#parameter_entry}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -241,6 +255,13 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunction_call(@NotNull codeParser.Function_callContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link codeParser#function_call_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction_call_statement(@NotNull codeParser.Function_call_statementContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link codeParser#loop_WHILE}.

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import app.compile.compiler.JalCompiler;
-import app.compile.database.SymbolDatabase;
 import app.compile.parser.codeParser;
 import app.compile.parser.codeParser.Function_callContext;
 import app.compile.parser.codeParser.Logical_statementContext;
@@ -13,19 +12,13 @@ import app.compile.parser.codeParser.Logical_statementContext;
 public class ConverterFunctionCall extends Converter
 {
     @Override
-    public boolean processChildren()
-    {
-        return false;
-    }
-
-    @Override
     public boolean productionValid(ParseTree parseTree)
     {
         return parseTree.getClass().equals(codeParser.Function_callContext.class);
     }
 
     @Override
-    public String process(ParseTree parseTree, JalCompiler compiler, SymbolDatabase scope)
+    public String process(ParseTree parseTree, JalCompiler compiler)
     {
         // TODO: check if function exists
         
@@ -40,7 +33,7 @@ public class ConverterFunctionCall extends Converter
         int i = 0;
         for (Logical_statementContext arg : args)
         {
-            String value = new ConverterLogicalStatement().process(arg, compiler, scope);
+            String value = new ConverterLogicalStatement().process(arg, compiler);
             compiler.curFunction.ilCode.add("ASG param" + (i++) + " " + value);
         }
         

@@ -319,8 +319,15 @@ statement               :   declare_statement
                         |   assignment_statement
                         |   conditional_statement
                         |   loop_statement
-                        |   function_call TOKEN_SEMICOLON
-                        |   TOKEN_RETURNING logical_statement TOKEN_SEMICOLON
+                        |   function_call_statement
+                        |   return_statement
+                        ;
+
+return_statement        :   TOKEN_RETURNING logical_statement TOKEN_SEMICOLON
+                        |   TOKEN_RETURNING TOKEN_SEMICOLON
+                        ;
+
+function_call_statement :   function_call TOKEN_SEMICOLON
                         ;
 
 declare_statement       :   TOKEN_DECLARE ID TOKEN_AS TYPE TOKEN_SEMICOLON
