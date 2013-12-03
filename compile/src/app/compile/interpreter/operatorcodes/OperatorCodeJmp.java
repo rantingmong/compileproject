@@ -3,7 +3,6 @@ package app.compile.interpreter.operatorcodes;
 import java.util.ArrayList;
 
 import app.compile.core.DataValue;
-import app.compile.interpreter.Interpreter.FuncCodeEntry;
 import app.compile.interpreter.ProgramState;
 import app.compile.interpreter.ProgramState.FuncStackEntry;
 import app.compile.util.ValueGetter;
@@ -31,12 +30,11 @@ public class OperatorCodeJmp extends OperatorCode
         {
             // search for jump
             FuncStackEntry  functionStack   = state.FUNCTION_STACK.peek();
-            FuncCodeEntry   functionHandle  = state.program.getFunction(functionStack.functionName);
             String          searchQuery     = opCodeArgs.get(1) + ":";
             
-            for (int i = 0; i < functionHandle.ilCode.size(); i++)
+            for (int i = 0; i < functionStack.functionInfoHandle.ilCode.size(); i++)
             {
-                if (searchQuery.equals(functionHandle.ilCode.get(i)))
+                if (searchQuery.equals(functionStack.functionInfoHandle.ilCode.get(i)))
                 {
                     functionStack.programCounter = i;
                     break;

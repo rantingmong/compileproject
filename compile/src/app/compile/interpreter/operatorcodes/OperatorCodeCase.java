@@ -3,9 +3,7 @@ package app.compile.interpreter.operatorcodes;
 import java.util.ArrayList;
 
 import app.compile.core.DataValue;
-import app.compile.database.SymbolDatabaseEntry;
 import app.compile.interpreter.ProgramState;
-import app.compile.interpreter.Interpreter.FuncCodeEntry;
 import app.compile.interpreter.ProgramState.FuncStackEntry;
 import app.compile.util.ValueGetter;
 
@@ -23,23 +21,22 @@ public class OperatorCodeCase extends OperatorCode
         if (state.CONDITIONAL_STACK.peek())
         {
             // find endswitch statement
-            FuncStackEntry  functionStack   = state.FUNCTION_STACK.peek();
-            FuncCodeEntry   functionHandle  = state.program.getFunction(functionStack.functionName);
+            FuncStackEntry funcEntry = state.FUNCTION_STACK.peek();
             
-            for (int i = functionStack.programCounter; i < functionHandle.ilCode.size(); i++)
+            for (int i = funcEntry.programCounter; i < funcEntry.functionInfoHandle.ilCode.size(); i++)
             {
-                if (functionHandle.ilCode.get(i).toLowerCase().contains("ENDSWITCH"))
+                if (funcEntry.functionInfoHandle.ilCode.get(i).toLowerCase().contains("ENDSWITCH"))
                 {
-                    functionStack.programCounter = i;
+                    funcEntry.programCounter = i;
                     break;
                 }
             }
         }
         else
         {
-            DataValue entry = ValueGetter.getValue(opCodeArgs.get(0), state, state.currentScope);
+            DataValue result = ValueGetter.getValue(opCodeArgs.get(0), state, state.currentScope);
             
-            if (entry.valueAsTorf())
+            if (result.valueAsTorf())
             {
                 state.CONDITIONAL_STACK.pop();
                 state.CONDITIONAL_STACK.push(true);
@@ -49,15 +46,14 @@ public class OperatorCodeCase extends OperatorCode
             else
             {
                 // find next case or default statement
-                FuncStackEntry  functionStack   = state.FUNCTION_STACK.peek();
-                FuncCodeEntry   functionHandle  = state.program.getFunction(functionStack.functionName);
+                FuncStackEntry  funcEntry   = state.FUNCTION_STACK.peek();
                 
-                for (int i = functionStack.programCounter; i < functionHandle.ilCode.size(); i++)
+                for (int i = funcEntry.programCounter; i < funcEntry.functionInfoHandle.ilCode.size(); i++)
                 {
-                    if (functionHandle.ilCode.get(i).toLowerCase().contains("CASE") ||
-                        functionHandle.ilCode.get(i).toLowerCase().contains("DEFAULT"))
+                    if (funcEntry.functionInfoHandle.ilCode.get(i).toLowerCase().contains("CASE") ||
+                        funcEntry.functionInfoHandle.ilCode.get(i).toLowerCase().contains("DEFAULT"))
                     {
-                        functionStack.programCounter = i;
+                        funcEntry.programCounter = i;
                         break;
                     }
                 }

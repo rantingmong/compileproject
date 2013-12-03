@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import app.compile.core.DataValue;
 import app.compile.database.SymbolDatabase;
 import app.compile.interpreter.ProgramState;
-import app.compile.interpreter.Interpreter.FuncCodeEntry;
 import app.compile.interpreter.ProgramState.FuncStackEntry;
 import app.compile.util.ValueGetter;
 
@@ -43,14 +42,13 @@ public class OperatorCodeIf extends OperatorCode
         {
             state.CONDITIONAL_STACK.push(false);
 
-            FuncStackEntry  functionStack   = state.FUNCTION_STACK.peek();
-            FuncCodeEntry   functionHandle  = state.program.getFunction(functionStack.functionName);
+            FuncStackEntry functionStack = state.FUNCTION_STACK.peek();
 
-            for (int i = functionStack.programCounter; i < functionHandle.ilCode.size(); i++)
+            for (int i = functionStack.programCounter; i < functionStack.functionInfoHandle.ilCode.size(); i++)
             {
-                if (functionHandle.ilCode.get(i).toLowerCase().contains("ELSEIF")   ||
-                    functionHandle.ilCode.get(i).toLowerCase().contains("ELSE")     ||
-                    functionHandle.ilCode.get(i).toLowerCase().contains("ENDIF"))
+                if (functionStack.functionInfoHandle.ilCode.get(i).toLowerCase().contains("ELSEIF")   ||
+                    functionStack.functionInfoHandle.ilCode.get(i).toLowerCase().contains("ELSE")     ||
+                    functionStack.functionInfoHandle.ilCode.get(i).toLowerCase().contains("ENDIF"))
                 {
                     functionStack.programCounter = i;
                     break;

@@ -15,7 +15,7 @@ public class ConverterFunctionDeclaration extends Converter
     @Override
     public boolean processChildren()
     {
-        return true;
+        return false;
     }
 
     @Override
@@ -53,6 +53,8 @@ public class ConverterFunctionDeclaration extends Converter
         returnString.append("]");
         
         result.add(returnString.toString());
+        
+        // emmitt the code for this function
         
         ConverterResult cr              = new ConverterResult();
                         cr.emmittedCode = result;

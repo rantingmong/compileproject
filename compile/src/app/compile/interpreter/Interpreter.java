@@ -2,10 +2,7 @@ package app.compile.interpreter;
 
 import java.util.ArrayList;
 
-import javax.tools.JavaCompiler;
-
-import app.compile.core.DataType;
-import app.compile.core.ParameterInformation;
+import app.compile.core.FunctionInformation;
 import app.compile.database.SymbolDatabase;
 import app.compile.interpreter.ProgramState.FuncStackEntry;
 import app.compile.interpreter.operatorcodes.OperatorCode;
@@ -37,83 +34,72 @@ import app.compile.interpreter.operatorcodes.OperatorCodeSwitch;
 
 public class Interpreter
 {
-    public class FuncCodeEntry
-    {
-        public String                          functionName = "";
-
-        public DataType                        returnType   = DataType.NOTHING;
-
-        public ArrayList<ParameterInformation> params       = new ArrayList<ParameterInformation>();
-
-        public ArrayList<String>               ilCode       = new ArrayList<String>();
-    }
-
     public class LineEntry
     {
         public String            opCode;
-        
+
         public ArrayList<String> arguments;
     }
-    
-    private FuncCodeEntry            mainFunction = null;
-    
-    private ProgramState             programState = new ProgramState();
-    private ArrayList<FuncCodeEntry> functions    = new ArrayList<Interpreter.FuncCodeEntry>();
 
-    private ArrayList<OperatorCode>  opCodeList   = new ArrayList<OperatorCode>();
+    private FunctionInformation            mainFunction = null;
 
-    public                           Interpreter    (String ilCodeSource)
+    private ProgramState                   programState = new ProgramState();
+    private ArrayList<FunctionInformation> functions    = new ArrayList<FunctionInformation>();
+
+    private ArrayList<OperatorCode>        opCodeList   = new ArrayList<OperatorCode>();
+
+    public Interpreter(String ilCodeSource)
     {
-        opCodeList.add(new OperatorCodeGt       ());
-        opCodeList.add(new OperatorCodeIf       ());
-        opCodeList.add(new OperatorCodeLt       ());
-        opCodeList.add(new OperatorCodeOr       ());
-        opCodeList.add(new OperatorCodeAdd      ());
-        opCodeList.add(new OperatorCodeAnd      ());
-        opCodeList.add(new OperatorCodeAsg      ());
-        opCodeList.add(new OperatorCodeCal      ());
-        opCodeList.add(new OperatorCodeDec      ());
-        opCodeList.add(new OperatorCodeDiv      ());
-        opCodeList.add(new OperatorCodeEnd      ());
-        opCodeList.add(new OperatorCodeEql      ());
-        opCodeList.add(new OperatorCodeGte      ());
-        opCodeList.add(new OperatorCodeJmp      ());
-        opCodeList.add(new OperatorCodeLte      ());
-        opCodeList.add(new OperatorCodeMul      ());
-        opCodeList.add(new OperatorCodeNql      ());
-        opCodeList.add(new OperatorCodeSub      ());
-        opCodeList.add(new OperatorCodeCase     ());
-        opCodeList.add(new OperatorCodeElse     ());
-        opCodeList.add(new OperatorCodeEndIf    ());
-        opCodeList.add(new OperatorCodeElseIf   ());
-        opCodeList.add(new OperatorCodeSwitch   ());
-        opCodeList.add(new OperatorCodeDefault  ());
+        opCodeList.add(new OperatorCodeGt());
+        opCodeList.add(new OperatorCodeIf());
+        opCodeList.add(new OperatorCodeLt());
+        opCodeList.add(new OperatorCodeOr());
+        opCodeList.add(new OperatorCodeAdd());
+        opCodeList.add(new OperatorCodeAnd());
+        opCodeList.add(new OperatorCodeAsg());
+        opCodeList.add(new OperatorCodeCal());
+        opCodeList.add(new OperatorCodeDec());
+        opCodeList.add(new OperatorCodeDiv());
+        opCodeList.add(new OperatorCodeEnd());
+        opCodeList.add(new OperatorCodeEql());
+        opCodeList.add(new OperatorCodeGte());
+        opCodeList.add(new OperatorCodeJmp());
+        opCodeList.add(new OperatorCodeLte());
+        opCodeList.add(new OperatorCodeMul());
+        opCodeList.add(new OperatorCodeNql());
+        opCodeList.add(new OperatorCodeSub());
+        opCodeList.add(new OperatorCodeCase());
+        opCodeList.add(new OperatorCodeElse());
+        opCodeList.add(new OperatorCodeEndIf());
+        opCodeList.add(new OperatorCodeElseIf());
+        opCodeList.add(new OperatorCodeSwitch());
+        opCodeList.add(new OperatorCodeDefault());
         opCodeList.add(new OperatorCodeEndSwitch());
     }
 
-    public void                      parse           ()
+    public void parse()
     {
         // separate the source file into its respective thingy
     }
-    
-    public boolean                   findFunction   (String functionName)
+
+    public boolean findFunction(String functionName)
     {
-        for (FuncCodeEntry function : functions)
+        for (FunctionInformation function : functions)
         {
             if (function.equals(functionName))
             {
                 return true;
             }
         }
-        
+
         // TODO: include functions imported
-        
+
         return false;
     }
-    
-    public FuncCodeEntry             getFunction    (String functionName)
+
+    public FunctionInformation getFunction(String functionName)
     {
-        for (FuncCodeEntry function : functions)
+        for (FunctionInformation function : functions)
         {
             if (function.equals(functionName))
             {
@@ -122,20 +108,20 @@ public class Interpreter
         }
 
         // TODO: include functions imported
-        
+
         return null;
     }
-    
-    public LineEntry                 parseLine      (String line)
+
+    public LineEntry parseLine(String line)
     {
-        String              procLine    = line + " ";
-        
-        int                 state       = 0; // 0 = init, 1 = op code read, 2 = inside string
-        StringBuilder       opCode      = new StringBuilder();
-        
-        StringBuilder       curArgument = new StringBuilder();
-        ArrayList<String>   arguments   = new ArrayList<String>();
-        
+        String procLine = line + " ";
+
+        int state = 0; // 0 = init, 1 = op code read, 2 = inside string
+        StringBuilder opCode = new StringBuilder();
+
+        StringBuilder curArgument = new StringBuilder();
+        ArrayList<String> arguments = new ArrayList<String>();
+
         for (int i = 0; i < procLine.length(); i++)
         {
             char theChar = procLine.charAt(i);
@@ -155,11 +141,11 @@ public class Interpreter
                 break;
             case 1:
 
-                if      (theChar == ' ')
+                if (theChar == ' ')
                 {
                     // next argument
                     arguments.add(curArgument.toString());
-                    
+
                     curArgument = new StringBuilder();
                 }
                 else if (theChar == '<')
@@ -171,7 +157,7 @@ public class Interpreter
                 {
                     curArgument.append(theChar);
                 }
-                
+
                 break;
             case 2:
 
@@ -183,52 +169,56 @@ public class Interpreter
                 {
                     curArgument.append(theChar);
                 }
-                
+
                 break;
             }
         }
-        
-        LineEntry   newLineEntry            = new LineEntry();
 
-                    newLineEntry.opCode     = opCode.toString();
-                    newLineEntry.arguments  = arguments;
-        
+        LineEntry newLineEntry = new LineEntry();
+
+        newLineEntry.opCode = opCode.toString();
+        newLineEntry.arguments = arguments;
+
         return newLineEntry;
     }
-    
-    public void                      execute        ()
+
+    public void execute()
     {
-        
         // set curFunction to main
-        FuncStackEntry  mainFunctionStack                = programState.new FuncStackEntry();
-        
-                        mainFunctionStack.functionName   = "main";
-                        mainFunctionStack.functionScope  = new SymbolDatabase();
-                        
-                        mainFunctionStack.programCounter = 0;
-        
+        FuncStackEntry mainFunctionStack = programState.new FuncStackEntry();
+
+        mainFunctionStack.functionName = "main";
+        mainFunctionStack.functionScope = new SymbolDatabase();
+
+        mainFunctionStack.programCounter = 0;
+
+        mainFunctionStack.functionInfoHandle = mainFunction;
+
         programState.FUNCTION_STACK.push(mainFunctionStack);
 
         FuncStackEntry curFunc = null;
-        
+
         do
         {
             curFunc = programState.FUNCTION_STACK.peek();
-            
+
+            LineEntry lineEntry = parseLine(curFunc.functionInfoHandle.ilCode.get(curFunc.programCounter));
+
             for (OperatorCode opCode : opCodeList)
             {
-                LineEntry lineEntry = parseLine(getFunction(curFunc.functionName).ilCode.get(curFunc.programCounter));
-                
                 if (opCode.getOperatorCode().toLowerCase().equals(lineEntry.opCode))
                 {
                     opCode.process(programState, lineEntry.arguments);
-                    
+
                     if (opCode.incrementHandled() == false)
                     {
                         curFunc.programCounter += 1;
                     }
                 }
             }
-        } while (curFunc.programCounter < getFunction(curFunc.functionName).ilCode.size());
+            
+            // Notice we don't pop the function here. It is the opcode "END"'s job to do that.
+            
+        } while (curFunc.programCounter < curFunc.functionInfoHandle.ilCode.size());
     }
 }

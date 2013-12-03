@@ -2,8 +2,8 @@ package app.compile.interpreter.operatorcodes;
 
 import java.util.ArrayList;
 
+import app.compile.core.FunctionInformation;
 import app.compile.interpreter.ProgramState;
-import app.compile.interpreter.Interpreter.FuncCodeEntry;
 import app.compile.interpreter.ProgramState.FuncStackEntry;
 
 public class OperatorCodeDefault extends OperatorCode
@@ -21,8 +21,8 @@ public class OperatorCodeDefault extends OperatorCode
         if (state.CONDITIONAL_STACK.peek())
         {
             // conditional already processed! find ENDIF and continue execution after that line
-            FuncStackEntry  functionStack   = state.FUNCTION_STACK.peek();
-            FuncCodeEntry   functionHandle  = state.program.getFunction(functionStack.functionName);
+            FuncStackEntry      functionStack   = state.FUNCTION_STACK.peek();
+            FunctionInformation functionHandle  = state.program.getFunction(functionStack.functionName);
 
             for (int i = functionStack.programCounter; i < functionHandle.ilCode.size(); i++)
             {

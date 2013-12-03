@@ -22,23 +22,36 @@ public class OperatorCodeCal extends OperatorCode
         {
             SymbolDatabase  functionDatabase        = new SymbolDatabase();
             
-            FuncStackEntry  newEntry                = state.new FuncStackEntry();
-                            newEntry.functionName   = opCodeArgs.get(0);
-                            newEntry.programCounter = 0;
-                            newEntry.functionScope  = functionDatabase;
+            FuncStackEntry  newEntry                    = state.new FuncStackEntry();
+                            newEntry.functionName       = opCodeArgs.get(0);
+                            newEntry.programCounter     = 0;
+                            newEntry.functionScope      = functionDatabase;
+
+                            newEntry.functionInfoHandle = state.program.getFunction(opCodeArgs.get(0));
 
             // change scope
             state.currentScope = functionDatabase;
 
-            // change program counter
-            state.FUNCTION_STACK.push(newEntry);
-            
             // populate argument list
             state.ARGS_LIST.clear();
             
             for (DataValue value : state.PARAM_LIST)
             {
                 state.ARGS_LIST.add(value);
+            }
+
+            // check if we're dealing with native methods
+            if (newEntry.functionInfoHandle.isNative)
+            {
+                // execute native method, we don't have to push this to the stack as the native method finishes
+                // immediately
+                if (newEntry.functionInfoHandle.nativeAction != null)
+                    newEntry.functionInfoHandle.nativeAction.execute(state, functionDatabase);
+            }
+            else
+            {
+                // change program counter
+                state.FUNCTION_STACK.push(newEntry);
             }
         }
         else

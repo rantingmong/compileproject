@@ -3,7 +3,6 @@ package app.compile.interpreter.operatorcodes;
 import java.util.ArrayList;
 
 import app.compile.interpreter.ProgramState;
-import app.compile.interpreter.Interpreter.FuncCodeEntry;
 import app.compile.interpreter.ProgramState.FuncStackEntry;
 
 public class OperatorCodeElse extends OperatorCode
@@ -28,11 +27,10 @@ public class OperatorCodeElse extends OperatorCode
         {
             // conditional already processed! find ENDIF and continue execution after that line
             FuncStackEntry  functionStack   = state.FUNCTION_STACK.peek();
-            FuncCodeEntry   functionHandle  = state.program.getFunction(functionStack.functionName);
 
-            for (int i = functionStack.programCounter; i < functionHandle.ilCode.size(); i++)
+            for (int i = functionStack.programCounter; i < functionStack.functionInfoHandle.ilCode.size(); i++)
             {
-                if (functionHandle.ilCode.get(i).toLowerCase().contains("ENDIF"))
+                if (functionStack.functionInfoHandle.ilCode.get(i).toLowerCase().contains("ENDIF"))
                 {
                     functionStack.programCounter = i;
                     break;
