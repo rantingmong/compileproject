@@ -38,14 +38,14 @@ public class ConverterFunctionDeclaration extends Converter
         FunctionInformation         newFunction                 = new FunctionInformation();
                                     newFunction.functionName    = functionDeclaration.ID().getText();
                                     newFunction.isNative        = false;
-                                    newFunction.returnType      = Enum.valueOf(DataType.class, functionDeclaration.TYPE().getText());
+                                    newFunction.returnType      = Enum.valueOf(DataType.class, functionDeclaration.TYPE().getText().toUpperCase());
 
         StringBuilder               returnString                = new StringBuilder();
 
         compiler.currentScope       = functionDatabase;
         compiler.curFunction        = newFunction;
         
-        returnString.append("FUNCTION");
+        returnString.append("FUNCTION ");
         returnString.append(functionDeclaration.ID().getText());
         
         returnString.append("[");
@@ -67,7 +67,7 @@ public class ConverterFunctionDeclaration extends Converter
                                 
                                 argEntry.ilName     = "arg" + i;
                                 argEntry.name       = paramList.get(i).ID().getText();
-                                argEntry.dataType   = Enum.valueOf(DataType.class, paramList.get(i).TYPE().getText());
+                                argEntry.dataType   = Enum.valueOf(DataType.class, paramList.get(i).TYPE().getText().toUpperCase());
                                 
             functionDatabase.entries.add(argEntry);
             

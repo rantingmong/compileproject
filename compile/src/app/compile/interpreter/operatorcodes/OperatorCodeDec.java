@@ -21,7 +21,7 @@ public class OperatorCodeDec extends OperatorCode
         // TODO: error check if there are dupes
 
         SymbolDatabaseEntry newEntry            = new SymbolDatabaseEntry();
-                            newEntry.dataType   = Enum.valueOf(DataType.class, opCodeArgs.get(1));
+                            newEntry.dataType   = Enum.valueOf(DataType.class, opCodeArgs.get(1).toUpperCase());
                             newEntry.entryType  = SymbolDatabaseEntryType.VARIABLE;
                             newEntry.name       = opCodeArgs.get(0);
                             

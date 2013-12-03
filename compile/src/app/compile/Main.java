@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import org.antlr.v4.runtime.*;
 
+import app.compile.compiler.JalCompiler;
+import app.compile.compiler.converter.ConverterProgram;
+import app.compile.core.FunctionInformation;
 import app.compile.parser.*;
 
 public class Main
@@ -33,6 +36,19 @@ public class Main
 
         codeParser.SContext     pt      = cp.s();
 
-        System.out.println(pt.getText());
+        JalCompiler            cmp      = new JalCompiler();
+        
+        ConverterProgram       cxp      = new ConverterProgram();
+                               cxp.process(pt, cmp);
+
+        for (FunctionInformation finfo : cmp.functionList)
+        {
+            for (String line : finfo.ilCode)
+            {
+                System.out.println(line);
+            }
+        }
+                               
+        System.out.println(cmp.functionList.size());
     }
 }

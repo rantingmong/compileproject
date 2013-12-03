@@ -46,11 +46,11 @@ public class ConverterStatement extends Converter
         }
         else if (statement instanceof codeParser.Function_call_statementContext)
         {
-            new ConverterFunctionCall().process(statement, compiler);
+            new ConverterFunctionCallStatement().process(statement, compiler);
         }
         else if (statement instanceof codeParser.Return_statementContext)
         {
-            
+            new ConverterReturnStatement().process(statement, compiler);
         }
         
         return "";

@@ -39,12 +39,13 @@ public class ConverterFunctionCall extends Converter
         
         compiler.curFunction.ilCode.add("CAL " + fcc.ID().getText());
 
-        String retVal = "val" + compiler.curFunction.newVariable();
+        String retVal = "var" + compiler.curFunction.newVariable();
         
         // we're doing this just in case there's multiple function calls going back and forth.
         // obviously i'll add an if statement here if the function returns nothing.
+        compiler.curFunction.ilCode.add("DEC " + retVal + " NOTHING"); // TODO: infer type
         compiler.curFunction.ilCode.add("ASG " + retVal + " RET");
 
-        return retVal; //TODO: define what variable this would return
+        return retVal;
     }
 }

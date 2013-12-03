@@ -35,7 +35,7 @@ public class ConverterDeclaration extends Converter
         SymbolDatabaseEntry newEntry = new SymbolDatabaseEntry();
         
         newEntry.name       = dsc.ID().getText();
-        newEntry.dataType   = Enum.valueOf(DataType.class, typ);
+        newEntry.dataType   = Enum.valueOf(DataType.class, typ.toUpperCase());
         
         newEntry.entryType  = SymbolDatabaseEntryType.VARIABLE;
         
@@ -45,6 +45,12 @@ public class ConverterDeclaration extends Converter
 
         compiler.curFunction.ilCode.add("DEC " + var + " " + typ);
 
+        if (dsc.logical_statement() != null)
+        {
+            String res = new ConverterLogicalStatement().process(dsc.logical_statement(), compiler);
+            compiler.curFunction.ilCode.add("ASG " + var + " " + res);
+        }
+        
         return "";
     }
 }

@@ -58,7 +58,7 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitConditional_DEFAULT(@NotNull codeParser.Conditional_DEFAULTContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConditional_IF(@NotNull codeParser.Conditional_IFContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -66,7 +66,7 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitConditional_IF(@NotNull codeParser.Conditional_IFContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConditional_DEFAULT(@NotNull codeParser.Conditional_DEFAULTContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -83,6 +83,14 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitLogical_statement(@NotNull codeParser.Logical_statementContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitConditional_IF_H(@NotNull codeParser.Conditional_IF_HContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -139,6 +147,14 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitOperator_bool3(@NotNull codeParser.Operator_bool3Context ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitConditional_CASE_CONST(@NotNull codeParser.Conditional_CASE_CONSTContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

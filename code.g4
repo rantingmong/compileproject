@@ -292,14 +292,14 @@ package_declaration     :   TOKEN_GRAB STRING TOKEN_SEMICOLON
 main_function           :   TOKEN_FUNCTION TOKEN_MAIN TOKEN_OPEN_B TOKEN_CLOS_B TOKEN_RETURNING TYPE group_statement
                         ;
 
-function_declaration	:   TOKEN_FUNCTION ID TOKEN_OPEN_B parameter TOKEN_CLOS_B TOKEN_RETURNING TYPE group_statement
+function_declaration	:   TOKEN_FUNCTION ID parameter TOKEN_RETURNING TYPE group_statement
                         ;
 
-parameter               :   (parameter_entry)(TOKEN_COMMA parameter_entry)*
+parameter               :   TOKEN_OPEN_B (parameter_entry)(TOKEN_COMMA parameter_entry)* TOKEN_CLOS_B
+                        |   TOKEN_OPEN_B TOKEN_CLOS_B
                         ;
 
 parameter_entry         :   TYPE ID
-                        |   TOKEN_NO_PARAM
                         ;
 
 function_call           :   ID TOKEN_OPEN_B function_arguments TOKEN_CLOS_B
@@ -354,19 +354,24 @@ conditional_statement   :   conditional_IF
                         |   conditional_SWITCH
                         ;
 
-conditional_IF          :   TOKEN_IF TOKEN_OPEN_B (logical_statement) TOKEN_CLOS_B group_statement (conditional_ELSEIF)* (conditional_ELSE)?
-                        ;
-
 conditional_SWITCH      :   conditional_SWITCH_H TOKEN_OPEN_S (conditional_CASE)+ (conditional_DEFAULT)? TOKEN_CLOS_S
                         ;
 
 conditional_SWITCH_H    :   TOKEN_CHECK TOKEN_IF TOKEN_OPEN_B ID TOKEN_CLOS_B
                         ;
 
-conditional_CASE        :   TOKEN_IS (NUM | STRING | TOKEN_TORF) TOKEN_COLON group_statement   
+conditional_CASE        :   TOKEN_IS conditional_CASE_CONST TOKEN_COLON group_statement   
                         ;
 
+conditional_CASE_CONST  :   (NUM | STRING | TOKEN_TORF);
+
 conditional_DEFAULT     :   TOKEN_ELSE TOKEN_COLON group_statement   
+                        ;
+
+conditional_IF          :   conditional_IF_H (conditional_ELSEIF)* (conditional_ELSE)?
+                        ;
+
+conditional_IF_H        :              TOKEN_IF TOKEN_OPEN_B logical_statement TOKEN_CLOS_B group_statement
                         ;
 
 conditional_ELSEIF      :   TOKEN_ELSE TOKEN_IF TOKEN_OPEN_B logical_statement TOKEN_CLOS_B group_statement

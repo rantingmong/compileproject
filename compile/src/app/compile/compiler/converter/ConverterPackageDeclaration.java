@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import app.compile.compiler.JalCompiler;
 import app.compile.parser.codeParser;
 
-public class ConvertPackageDeclaration extends Converter
+public class ConverterPackageDeclaration extends Converter
 {
     @Override
     public boolean          productionValid (ParseTree parseTree)

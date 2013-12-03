@@ -15,7 +15,9 @@ function factorial          [whole_number number, whole_number number2] returnin
     >>
 >>
 
-function anotherFunction    [blank]                                     returning nothing <<
+function anotherFunction    []                                          returning nothing <<
+
+    declare something as symbol to <a>;
 
     check if [something] <<
         
@@ -34,14 +36,14 @@ function anotherFunction    [blank]                                     returnin
     >>
 >>
 
-function someComplexLogic   [blank]                                     returning nothing <<
+function someComplexLogic   []                                          returning nothing <<
     
     if [(NOT(TRUE AND TRUE) LTE (FALSE AND FALSE)) EQUAL (20 SUBS EQUAL anotherFunction[])] <<
     
     >>
 >>
 
-function loopFunction       [blank]                                     returning nothing <<
+function loopFunction       []                                          returning nothing <<
 
     repeat <<
 
@@ -60,7 +62,7 @@ function loopFunction       [blank]                                     returnin
     >>
 >>
 
-function main[]                                                         returning nothing <<
+function main               []                                          returning nothing <<
 	
 	printText[factorial[46]];
 >>

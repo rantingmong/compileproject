@@ -47,18 +47,18 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitConditional_ELSEIF(@NotNull codeParser.Conditional_ELSEIFContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link codeParser#conditional_DEFAULT}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConditional_DEFAULT(@NotNull codeParser.Conditional_DEFAULTContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link codeParser#conditional_IF}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitConditional_IF(@NotNull codeParser.Conditional_IFContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link codeParser#conditional_DEFAULT}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditional_DEFAULT(@NotNull codeParser.Conditional_DEFAULTContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link codeParser#parameter}.
@@ -73,6 +73,13 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLogical_statement(@NotNull codeParser.Logical_statementContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link codeParser#conditional_IF_H}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditional_IF_H(@NotNull codeParser.Conditional_IF_HContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link codeParser#conditional_SWITCH}.
@@ -122,6 +129,13 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitOperator_bool3(@NotNull codeParser.Operator_bool3Context ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link codeParser#conditional_CASE_CONST}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditional_CASE_CONST(@NotNull codeParser.Conditional_CASE_CONSTContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link codeParser#operator_bool2}.

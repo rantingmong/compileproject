@@ -54,12 +54,7 @@ public class ConverterLogicalStatement extends Converter
      */
     public String               processLogicTree    (ParseTree parseTree, JalCompiler compiler)
     {
-        if      (parseTree.getChildCount() == 1)
-        {
-            // for those nodes that only have one child
-            return processLogicTree(parseTree.getChild(0), compiler);
-        }
-        else if (parseTree instanceof Expression_finalContext)
+        if      (parseTree instanceof Expression_finalContext)
         {
             // LEAF NODE
             if (parseTree.getChild(0) instanceof TerminalNode)
@@ -78,10 +73,13 @@ public class ConverterLogicalStatement extends Converter
             {
                 // FUNCTION CALL. HANDLE THAT FUNCTION CALL FIRST. AND RETURN THE VARIABLE MADE BY THE FUNCTION CALL,
                 // which is RET.
-                new ConverterFunctionCall().process(parseTree.getChild(0), compiler);
-                
-                return "RET";
+                return new ConverterFunctionCall().process(parseTree.getChild(0), compiler);
             }
+        }
+        else if (parseTree.getChildCount() == 1)
+        {
+            // for those nodes that only have one child
+            return processLogicTree(parseTree.getChild(0), compiler);
         }
         else if (parseTree instanceof codeParser.Operator_bool1Context  ||
                  parseTree instanceof codeParser.Operator_bool2Context  ||
@@ -103,7 +101,7 @@ public class ConverterLogicalStatement extends Converter
             // then we add this:
 
             // TODO: define type for var
-            compiler.curFunction.ilCode.add("DEC " + var + "NOTHING");
+            compiler.curFunction.ilCode.add("DEC " + var + " NOTHING");
             compiler.curFunction.ilCode.add(opr + " " + lhs + " " + rhs + " " + var);
 
             return var; // return the resulting variable
