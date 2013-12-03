@@ -2,6 +2,7 @@ package app.compile.interpreter;
 
 import java.util.ArrayList;
 
+import app.compile.compiler.JalCompiler;
 import app.compile.core.FunctionInformation;
 import app.compile.database.SymbolDatabase;
 import app.compile.interpreter.ProgramState.FuncStackEntry;
@@ -41,14 +42,13 @@ public class Interpreter
         public ArrayList<String> arguments;
     }
 
-    private FunctionInformation            mainFunction = null;
-
     private ProgramState                   programState = new ProgramState();
-    private ArrayList<FunctionInformation> functions    = new ArrayList<FunctionInformation>();
-
     private ArrayList<OperatorCode>        opCodeList   = new ArrayList<OperatorCode>();
 
-    public Interpreter(String ilCodeSource)
+    private JalCompiler                    compiler;
+    private FunctionInformation            mainFunction;
+    
+    public Interpreter(JalCompiler compiler)
     {
         opCodeList.add(new OperatorCodeGt());
         opCodeList.add(new OperatorCodeIf());
@@ -75,41 +75,18 @@ public class Interpreter
         opCodeList.add(new OperatorCodeSwitch());
         opCodeList.add(new OperatorCodeDefault());
         opCodeList.add(new OperatorCodeEndSwitch());
-    }
-
-    public void parse()
-    {
-        // separate the source file into its respective thingy
+        
+        mainFunction = compiler.functionList.get(compiler.functionList.size() - 1);
     }
 
     public boolean findFunction(String functionName)
     {
-        for (FunctionInformation function : functions)
-        {
-            if (function.equals(functionName))
-            {
-                return true;
-            }
-        }
-
-        // TODO: include functions imported
-
-        return false;
+        return compiler.findFunction(functionName);
     }
 
     public FunctionInformation getFunction(String functionName)
     {
-        for (FunctionInformation function : functions)
-        {
-            if (function.equals(functionName))
-            {
-                return function;
-            }
-        }
-
-        // TODO: include functions imported
-
-        return null;
+        return compiler.getFunction(functionName);
     }
 
     public LineEntry parseLine(String line)
@@ -187,12 +164,12 @@ public class Interpreter
         // set curFunction to main
         FuncStackEntry mainFunctionStack = programState.new FuncStackEntry();
 
-        mainFunctionStack.functionName = "main";
-        mainFunctionStack.functionScope = new SymbolDatabase();
+        mainFunctionStack.functionName          = "main";
+        mainFunctionStack.functionScope         = new SymbolDatabase();
 
-        mainFunctionStack.programCounter = 0;
+        mainFunctionStack.programCounter        = 0;
 
-        mainFunctionStack.functionInfoHandle = mainFunction;
+        mainFunctionStack.functionInfoHandle    = mainFunction;
 
         programState.FUNCTION_STACK.push(mainFunctionStack);
 

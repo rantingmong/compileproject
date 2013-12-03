@@ -78,8 +78,6 @@ public class ConverterFunctionDeclaration extends Converter
         
         returnString.append("] " + functionDeclaration.TYPE().getText());
 
-        compiler.curFunction.ilCode.add(returnString.toString());
-
         new ConverterGroupStatement().process(functionDeclaration.group_statement(), compiler);
 
         compiler.curFunction.ilCode.add("END");

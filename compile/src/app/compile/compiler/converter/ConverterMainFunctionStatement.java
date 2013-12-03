@@ -39,8 +39,6 @@ public class ConverterMainFunctionStatement extends Converter
 
         returnString.append("FUNCTION main [] " + DataType.NOTHING);
 
-        compiler.curFunction.ilCode.add(returnString.toString());
-
         new ConverterGroupStatement().process(functionDeclaration.group_statement(), compiler);
 
         compiler.curFunction.ilCode.add("END");
