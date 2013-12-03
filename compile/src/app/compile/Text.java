@@ -17,14 +17,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Token;
 
 import app.compile.compiler.JalCompiler;
 import app.compile.compiler.converter.ConverterProgram;
@@ -40,12 +44,11 @@ import java.io.*;
 public class Text extends JFrame implements ActionListener {
 	private TextArea textArea = new TextArea();
 	private TextArea console = new TextArea();
-	private MenuBar menuBar = new MenuBar();
-	private Menu file = new Menu();
-	private MenuItem openFile = new MenuItem();
-	private MenuItem saveFile = new MenuItem();
-	private MenuItem compile = new MenuItem();
-	private MenuItem close = new MenuItem();
+	private JToolBar menuBar = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
+	private JButton openFile = new JButton();
+	private JButton saveFile = new JButton();
+	private JButton compile = new JButton();
+	private JButton close = new JButton();
 	
 	public Text() {
 		redirectSystemStreams();
@@ -59,6 +62,10 @@ public class Text extends JFrame implements ActionListener {
 		this.getContentPane().add(console, BorderLayout.PAGE_END);
 		this.console.setEditable(false);
 		
+		ComponentResizer cr = new ComponentResizer();
+		cr.setSnapSize(new Dimension(10, 10));
+		cr.registerComponent(console, menuBar, textArea);
+		
                 this.textArea.addKeyListener
               (new KeyAdapter() {
                  public void keyReleased(KeyEvent e) {
@@ -67,31 +74,23 @@ public class Text extends JFrame implements ActionListener {
                  }
                  }
               );
-
-		this.setMenuBar(this.menuBar);
-		this.menuBar.add(this.file);
+		this.menuBar.add(this.openFile);
+		this.menuBar.add(this.saveFile);
+		this.menuBar.add(this.compile);
+		this.getContentPane().add(menuBar,BorderLayout.NORTH);
 		
-		this.file.setLabel("File");
-		this.openFile.setLabel("Open");
+		this.openFile.setText("Open");
 		this.openFile.addActionListener(this);
-		this.openFile.setShortcut(new MenuShortcut(KeyEvent.VK_O, false));
-		this.file.add(this.openFile);
+		//this.openFile.setShortcut(new MenuShortcut(KeyEvent.VK_O, false));
 		
-		this.saveFile.setLabel("Save");
+		this.saveFile.setText("Save");
 		this.saveFile.addActionListener(this);
-		this.saveFile.setShortcut(new MenuShortcut(KeyEvent.VK_S, false));
-		this.file.add(this.saveFile);
+		//this.saveFile.setShortcut(new MenuShortcut(KeyEvent.VK_S, false));
 		
-		this.compile.setLabel("Compile");
+		this.compile.setText("Compile");
 		this.compile.addActionListener(this);
-		this.compile.setShortcut(new MenuShortcut(KeyEvent.VK_F5, false));
-		this.file.add(this.compile);
+		//this.compile.setShortcut(new MenuShortcut(KeyEvent.VK_F5, false));
 		
-		
-		this.close.setLabel("Close");
-		this.close.setShortcut(new MenuShortcut(KeyEvent.VK_F4, false));
-		this.close.addActionListener(this);
-		this.file.add(this.close);
 	}
 	
 	public void actionPerformed (ActionEvent e) {

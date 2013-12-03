@@ -159,6 +159,7 @@ public class codeParser extends Parser {
 			_localctx.exception = re;
 			_errHandler.reportError(this, re);
 			_errHandler.recover(this, re);
+			//System.out.println(re.getOffendingToken().getText() + " " + re.getOffendingToken().getStartIndex() + ":" + re.getOffendingToken().getStopIndex());
 		}
 		finally {
 			exitRule();
