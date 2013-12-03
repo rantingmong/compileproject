@@ -379,6 +379,8 @@ loop_DO_WHILE           :   TOKEN_REPEAT group_statement TOKEN_UNTIL TOKEN_OPEN_
 loop_WHILE              :   TOKEN_REPEAT TOKEN_UNTIL TOKEN_OPEN_B logical_statement TOKEN_CLOS_B group_statement
                         ;
 
-loop_for                :   TOKEN_REPEAT TYPE ID TOKEN_FROM expression1 TOKEN_TO expression1 group_statement
-                        |   TOKEN_REPEAT TYPE ID TOKEN_FROM expression1 TOKEN_TO expression1 TOKEN_WITH expression1 group_statement
+loop_for                :   TOKEN_REPEAT TYPE ID loop_for_control (TOKEN_WITH expression1)? group_statement
+                        ;
+
+loop_for_control        :   TOKEN_FROM expression1 TOKEN_TO expression1
                         ;

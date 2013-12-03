@@ -27,12 +27,13 @@ public class ConverterAssignment extends Converter
     public String process(ParseTree parseTree, JalCompiler compiler, SymbolDatabase scope)
     {
         Assignment_statementContext asc = (Assignment_statementContext)parseTree;
-        
+
         // ID IS <logical statement>
-        String logicalStatementResult = new ConverterLogicalStatement().process(asc.logical_statement(), compiler, scope);
-        
-        compiler.curFunction.ilCode.add("ASG " + "temp0 " + logicalStatementResult);
-        
+        String var                      = "var" + compiler.curFunction.newVariable();
+        String logicalStatementResult   = new ConverterLogicalStatement().process(asc.logical_statement(), compiler, scope);
+
+        compiler.curFunction.ilCode.add("ASG " + var + logicalStatementResult);
+
         return "";
     }
 }

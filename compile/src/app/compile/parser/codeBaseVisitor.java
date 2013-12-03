@@ -26,7 +26,7 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitConditional_CASE(@NotNull codeParser.Conditional_CASEContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConditional_SWITCH_H(@NotNull codeParser.Conditional_SWITCH_HContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -34,7 +34,7 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitConditionl_SWITCH(@NotNull codeParser.Conditionl_SWITCHContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConditional_CASE(@NotNull codeParser.Conditional_CASEContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -83,6 +83,14 @@ public class codeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements c
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitLogical_statement(@NotNull codeParser.Logical_statementContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitConditional_SWITCH(@NotNull codeParser.Conditional_SWITCHContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

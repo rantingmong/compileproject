@@ -19,18 +19,18 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitLoop_for(@NotNull codeParser.Loop_forContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link codeParser#conditional_SWITCH_H}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditional_SWITCH_H(@NotNull codeParser.Conditional_SWITCH_HContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link codeParser#conditional_CASE}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitConditional_CASE(@NotNull codeParser.Conditional_CASEContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link codeParser#conditionl_SWITCH}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConditionl_SWITCH(@NotNull codeParser.Conditionl_SWITCHContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link codeParser#loop_statement}.
@@ -73,6 +73,13 @@ public interface codeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLogical_statement(@NotNull codeParser.Logical_statementContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link codeParser#conditional_SWITCH}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditional_SWITCH(@NotNull codeParser.Conditional_SWITCHContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link codeParser#conditional_statement}.

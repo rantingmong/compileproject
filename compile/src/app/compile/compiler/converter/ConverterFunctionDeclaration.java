@@ -59,6 +59,8 @@ public class ConverterFunctionDeclaration extends Converter
         
         // TODO: emit the code for this function
 
+        compiler.curFunction.ilCode.add("END");
+
         return "";
     }
 }
