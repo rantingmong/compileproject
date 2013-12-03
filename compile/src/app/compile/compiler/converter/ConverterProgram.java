@@ -30,6 +30,9 @@ public class ConverterProgram extends Converter
             new ConverterFunctionDeclaration().process(functionDec, compiler);
         }
 
+        if (start.main_function().size() > 0)
+            new ConverterMainFunctionStatement().process(start.main_function().get(0), compiler);
+        
         return "";
     }
 }

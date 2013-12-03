@@ -14,17 +14,17 @@ public class ValueGetter
         {
             return DataType.SYMBOL;
         }
-        else if (Checker.checkIfTokenIsFloat(value))
+        else if (Checker.checkIfTokenIsString(value))
         {
-            return DataType.REAL_NUMBER;
+            return DataType.CHARACTERS;
         }
         else if (Checker.checkIfTokenIsNumber(value))
         {
             return DataType.WHOLE_NUMBER;
-        }
-        else if (Checker.checkIfTokenIsString(value))
+        } 
+        else if (Checker.checkIfTokenIsFloat(value))
         {
-            return DataType.CHARACTERS;
+            return DataType.REAL_NUMBER;
         }
         else if (Checker.checkIfTokenIsTorf(value))
         {
