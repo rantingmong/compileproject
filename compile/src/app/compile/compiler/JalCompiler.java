@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import app.compile.core.FunctionInformation;
 import app.compile.core.PackageInformation;
-import app.compile.core.PackageInformationStandard;
+import app.compile.core.packages.PackageInformationStandard;
 import app.compile.database.SymbolDatabase;
 
 /**

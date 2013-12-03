@@ -65,6 +65,7 @@ function loopFunction       []                                          returnin
 >>
 
 function main               []                                          returning nothing <<
-	
-	printText[factorial[46]];
+
+    declare returnValue as whole_number to factorial[46];
+    printText[wholeNumberToString[returnValue]];
 >>

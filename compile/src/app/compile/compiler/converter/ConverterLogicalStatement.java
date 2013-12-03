@@ -82,8 +82,8 @@ public class ConverterLogicalStatement extends Converter
                         return entry.ilName;
                     }
                 }
-                
-                return parseTree.getChild(0).getText();
+
+                return checkText;
             }
             else
             {
