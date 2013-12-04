@@ -25,7 +25,7 @@ public class OperatorCodeCase extends OperatorCode
             
             for (int i = funcEntry.programCounter; i < funcEntry.functionInfoHandle.ilCode.size(); i++)
             {
-                if (funcEntry.functionInfoHandle.ilCode.get(i).toLowerCase().contains("ENDSWITCH"))
+                if (funcEntry.functionInfoHandle.ilCode.get(i).toLowerCase().contains("endswitch"))
                 {
                     funcEntry.programCounter = i;
                     break;
@@ -50,8 +50,8 @@ public class OperatorCodeCase extends OperatorCode
                 
                 for (int i = funcEntry.programCounter; i < funcEntry.functionInfoHandle.ilCode.size(); i++)
                 {
-                    if (funcEntry.functionInfoHandle.ilCode.get(i).toLowerCase().contains("CASE") ||
-                        funcEntry.functionInfoHandle.ilCode.get(i).toLowerCase().contains("DEFAULT"))
+                    if (funcEntry.functionInfoHandle.ilCode.get(i).toLowerCase().contains("case") ||
+                        funcEntry.functionInfoHandle.ilCode.get(i).toLowerCase().contains("default"))
                     {
                         funcEntry.programCounter = i;
                         break;

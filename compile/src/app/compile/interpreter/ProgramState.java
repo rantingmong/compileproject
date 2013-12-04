@@ -24,8 +24,8 @@ public class ProgramState
 
     public DataValue             RET               = new DataValue(DataType.NOTHING);
 
-    public ArrayList<DataValue>  ARGS_LIST         = new ArrayList<DataValue>(20);
-    public ArrayList<DataValue>  PARAM_LIST        = new ArrayList<DataValue>(20);
+    public DataValue[]           ARGS_LIST         = new DataValue[20];
+    public DataValue[]           PARAM_LIST        = new DataValue[20];
 
     public Stack<FuncStackEntry> FUNCTION_STACK    = new Stack<FuncStackEntry>();
 

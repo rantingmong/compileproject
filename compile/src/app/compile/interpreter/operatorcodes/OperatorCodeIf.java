@@ -46,9 +46,9 @@ public class OperatorCodeIf extends OperatorCode
 
             for (int i = functionStack.programCounter; i < functionStack.functionInfoHandle.ilCode.size(); i++)
             {
-                if (functionStack.functionInfoHandle.ilCode.get(i).toLowerCase().contains("ELSEIF")   ||
-                    functionStack.functionInfoHandle.ilCode.get(i).toLowerCase().contains("ELSE")     ||
-                    functionStack.functionInfoHandle.ilCode.get(i).toLowerCase().contains("ENDIF"))
+                if (functionStack.functionInfoHandle.ilCode.get(i).toLowerCase().contains("elseif")   ||
+                    functionStack.functionInfoHandle.ilCode.get(i).toLowerCase().contains("else")     ||
+                    functionStack.functionInfoHandle.ilCode.get(i).toLowerCase().contains("endif"))
                 {
                     functionStack.programCounter = i;
                     break;

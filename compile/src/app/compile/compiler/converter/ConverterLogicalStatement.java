@@ -153,14 +153,14 @@ public class ConverterLogicalStatement extends Converter
                 opr         = "EQL";
                 
                 finalType   = DataType.TORF;
-                correctType = TypeCoercer.checkIfLogicallyCompatible(lhsType, rhsType);
+                correctType = TypeCoercer.checkIfArithmeticallyCompatible(lhsType, rhsType);
                 break;
             case "not_equal":
                 
                 opr         = "NQL";
 
                 finalType   = DataType.TORF;
-                correctType = TypeCoercer.checkIfLogicallyCompatible(lhsType, rhsType);
+                correctType = TypeCoercer.checkIfArithmeticallyCompatible(lhsType, rhsType);
                 break;
             case "or":
             case "and":
@@ -257,7 +257,7 @@ public class ConverterLogicalStatement extends Converter
                 compiler.curFunction.ilCode.add("DEC " + var + " " + resType);
                 compiler.curFunction.ilCode.add("ASG " + var + " " + res);
                 
-                compiler.curFunction.ilCode.add(opr + " " + var + " 1");
+                compiler.curFunction.ilCode.add(opr + " " + var + " 1 " + var);
 
                 SymbolDatabaseEntry newEntry            = new SymbolDatabaseEntry();
                                     newEntry.ilName     = var;

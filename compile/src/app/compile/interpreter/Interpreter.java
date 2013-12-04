@@ -40,6 +40,12 @@ public class Interpreter
         public String            opCode;
 
         public ArrayList<String> arguments;
+        
+        @Override
+        public String toString()
+        {
+            return opCode + " " + arguments.size();
+        }
     }
 
     private ProgramState                   programState = new ProgramState();
@@ -50,6 +56,9 @@ public class Interpreter
     
     public Interpreter(JalCompiler compiler)
     {
+        programState.program = this;
+        this.compiler = compiler;
+        
         opCodeList.add(new OperatorCodeGt());
         opCodeList.add(new OperatorCodeIf());
         opCodeList.add(new OperatorCodeLt());
@@ -177,21 +186,30 @@ public class Interpreter
 
         do
         {
-            curFunc = programState.FUNCTION_STACK.peek();
-
-            LineEntry lineEntry = parseLine(curFunc.functionInfoHandle.ilCode.get(curFunc.programCounter));
-
-            for (OperatorCode opCode : opCodeList)
+            if (programState.FUNCTION_STACK.size() > 0)
             {
-                if (opCode.getOperatorCode().toLowerCase().equals(lineEntry.opCode))
-                {
-                    opCode.process(programState, lineEntry.arguments);
+                curFunc                     = programState.FUNCTION_STACK.peek();
+                programState.currentScope   = curFunc.functionScope;
 
-                    if (opCode.incrementHandled() == false)
+                String      line        = curFunc.functionInfoHandle.ilCode.get(curFunc.programCounter);
+                LineEntry   lineEntry   = parseLine(line);
+
+                for (OperatorCode opCode : opCodeList)
+                {
+                    if (opCode.getOperatorCode().toLowerCase().equals(lineEntry.opCode.toLowerCase()))
                     {
-                        curFunc.programCounter += 1;
+                        opCode.process(programState, lineEntry.arguments);
+
+                        if (opCode.incrementHandled() == false)
+                        {
+                            curFunc.programCounter += 1;
+                        }
                     }
                 }
+            }
+            else
+            {
+                break;
             }
             
             // Notice we don't pop the function here. It is the opcode "END"'s job to do that.

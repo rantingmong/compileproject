@@ -15,10 +15,9 @@ public class OperatorCodeEnd extends OperatorCode
     @Override
     public void process(ProgramState state, ArrayList<String> opCodeArgs)
     {
-        state.ARGS_LIST.clear();
-        state.PARAM_LIST.clear();
-        
         state.FUNCTION_STACK.pop();
-        state.currentScope = state.FUNCTION_STACK.peek().functionScope;
+        
+        if (state.FUNCTION_STACK.size() > 0)
+            state.currentScope = state.FUNCTION_STACK.peek().functionScope;
     }
 }

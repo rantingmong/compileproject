@@ -28,7 +28,7 @@ public class SymbolDatabase
 
             database = database.parent;
 
-        } while (database.parent != null);
+        } while (database != null);
 
         return modifyEntry;
     }
@@ -57,7 +57,7 @@ public class SymbolDatabase
 
             database = database.parent;
 
-        } while (database.parent != null);
+        } while (database != null);
 
         return modifyEntry;
     }

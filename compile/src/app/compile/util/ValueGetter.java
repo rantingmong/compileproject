@@ -38,11 +38,7 @@ public class ValueGetter
     
     public static DataValue getValue(String input, ProgramState state, SymbolDatabase scope)
     {
-        if      (Checker.checkIfTokenIsString(input))
-        {
-            return new DataValue(DataType.CHARACTERS, input);
-        }
-        else if (Checker.checkIfTokenIsChar(input))
+        if      (Checker.checkIfTokenIsChar(input))
         {
             return new DataValue(DataType.SYMBOL, input);
         }
@@ -62,13 +58,13 @@ public class ValueGetter
         {
             return state.RET;
         }
-        else if (input.toLowerCase().contains("args"))
+        else if (input.toLowerCase().contains("arg"))
         {
-            return state.ARGS_LIST.get(Integer.getInteger(input.charAt(input.length() - 1) + ""));
+            return state.ARGS_LIST  [Integer.parseInt(input.substring(3))];
         }
         else if (input.toLowerCase().contains("param"))
         {
-            return state.PARAM_LIST.get(Integer.getInteger(input.charAt(input.length() - 1) + ""));
+            return state.PARAM_LIST [Integer.parseInt(input.substring(5))];
         }
         // argument is not a constant. find it in the symbol database.
         else
@@ -79,6 +75,6 @@ public class ValueGetter
                 return entry.dataValue;
         }
         
-        return null;
+        return new DataValue(DataType.CHARACTERS, input);
     }
 }

@@ -20,13 +20,13 @@ public class OperatorCodeDefault extends OperatorCode
     {
         if (state.CONDITIONAL_STACK.peek())
         {
-            // conditional already processed! find ENDIF and continue execution after that line
+            // conditional already processed! find endswitch and continue execution after that line
             FuncStackEntry      functionStack   = state.FUNCTION_STACK.peek();
             FunctionInformation functionHandle  = state.program.getFunction(functionStack.functionName);
 
             for (int i = functionStack.programCounter; i < functionHandle.ilCode.size(); i++)
             {
-                if (functionHandle.ilCode.get(i).toLowerCase().contains("ENDIF"))
+                if (functionHandle.ilCode.get(i).toLowerCase().contains("endswitch"))
                 {
                     functionStack.programCounter = i;
                     break;

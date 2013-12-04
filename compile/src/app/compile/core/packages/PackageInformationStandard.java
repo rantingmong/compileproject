@@ -11,6 +11,7 @@ import app.compile.core.ParameterInformation;
 import app.compile.core.FunctionInformation.NativeAction;
 import app.compile.database.SymbolDatabase;
 import app.compile.interpreter.ProgramState;
+import app.compile.util.ValueGetter;
 
 public class PackageInformationStandard extends PackageInformation
 {
@@ -39,7 +40,7 @@ public class PackageInformationStandard extends PackageInformation
             @Override
             public void execute(ProgramState state, SymbolDatabase scope)
             {
-                System.out.println(state.ARGS_LIST.get(0).valueAsString());
+                System.out.println(ValueGetter.getValue(state.ARGS_LIST[0].valueAsString(), state, scope).valueAsString());
             }
         };
 
@@ -83,7 +84,7 @@ public class PackageInformationStandard extends PackageInformation
             @Override
             public void execute(ProgramState state, SymbolDatabase scope)
             {
-                state.RET = new DataValue(DataType.CHARACTERS, state.ARGS_LIST.get(0).valueAsString());
+                state.RET = new DataValue(DataType.CHARACTERS, ValueGetter.getValue(state.ARGS_LIST[0].valueAsString(), state, scope).valueAsString());
             }
         };
 
@@ -107,7 +108,7 @@ public class PackageInformationStandard extends PackageInformation
             @Override
             public void execute(ProgramState state, SymbolDatabase scope)
             {
-                state.RET = new DataValue(DataType.CHARACTERS, state.ARGS_LIST.get(0).valueAsString());
+                state.RET = new DataValue(DataType.CHARACTERS, state.ARGS_LIST[0].valueAsString());
             }
         };
 
@@ -131,7 +132,7 @@ public class PackageInformationStandard extends PackageInformation
             @Override
             public void execute(ProgramState state, SymbolDatabase scope)
             {
-                state.RET = new DataValue(DataType.CHARACTERS, state.ARGS_LIST.get(0).valueAsString());
+                state.RET = new DataValue(DataType.CHARACTERS, state.ARGS_LIST[0].valueAsString());
             }
         };
 
@@ -155,7 +156,7 @@ public class PackageInformationStandard extends PackageInformation
             @Override
             public void execute(ProgramState state, SymbolDatabase scope)
             {
-                state.RET = new DataValue(DataType.CHARACTERS, state.ARGS_LIST.get(0).valueAsString());
+                state.RET = new DataValue(DataType.CHARACTERS, state.ARGS_LIST[0].valueAsString());
             }
         };
 

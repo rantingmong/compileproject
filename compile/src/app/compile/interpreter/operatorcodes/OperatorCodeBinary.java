@@ -16,7 +16,7 @@ public abstract class OperatorCodeBinary extends OperatorCode
         
         DataValue lhs           = ValueGetter.getValue(opCodeArgs.get(0), state, state.currentScope);
         DataValue rhs           = ValueGetter.getValue(opCodeArgs.get(1), state, state.currentScope);
-        
+
         DataValue returnValue   = performOperation(lhs, rhs);
         
         if (returnValue == null)

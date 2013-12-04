@@ -17,8 +17,6 @@ public class OperatorCodeEndIf extends OperatorCode
     {
         state.currentScope = state.currentScope.parent;
         
-        // next line...
         state.CONDITIONAL_STACK.pop();
     }
-
 }
