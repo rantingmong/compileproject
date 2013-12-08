@@ -46,7 +46,7 @@ public class DataValue
         }
         catch (NumberFormatException nfe)
         {
-            return 0;
+            return (int)valueAsFloat();
         }
     }
     

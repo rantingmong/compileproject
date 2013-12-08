@@ -40,7 +40,7 @@ public class PackageInformationStandard extends PackageInformation
             @Override
             public void execute(ProgramState state, SymbolDatabase scope)
             {
-                System.out.println(ValueGetter.getValue(state.ARGS_LIST[0].valueAsString(), state, scope).valueAsString());
+                System.out.println(ValueGetter.getValue(state.FUNCTION_STACK.peek().ARGS_LIST[0].valueAsString(), state, scope).valueAsString());
             }
         };
 
@@ -84,7 +84,7 @@ public class PackageInformationStandard extends PackageInformation
             @Override
             public void execute(ProgramState state, SymbolDatabase scope)
             {
-                state.RET = new DataValue(DataType.CHARACTERS, ValueGetter.getValue(state.ARGS_LIST[0].valueAsString(), state, scope).valueAsString());
+                state.RET = new DataValue(DataType.CHARACTERS, ValueGetter.getValue(state.FUNCTION_STACK.peek().ARGS_LIST[0].valueAsString(), state, scope).valueAsString());
             }
         };
 
@@ -108,7 +108,7 @@ public class PackageInformationStandard extends PackageInformation
             @Override
             public void execute(ProgramState state, SymbolDatabase scope)
             {
-                state.RET = new DataValue(DataType.CHARACTERS, state.ARGS_LIST[0].valueAsString());
+                state.RET = new DataValue(DataType.CHARACTERS, state.FUNCTION_STACK.peek().ARGS_LIST[0].valueAsString());
             }
         };
 
@@ -132,7 +132,7 @@ public class PackageInformationStandard extends PackageInformation
             @Override
             public void execute(ProgramState state, SymbolDatabase scope)
             {
-                state.RET = new DataValue(DataType.CHARACTERS, state.ARGS_LIST[0].valueAsString());
+                state.RET = new DataValue(DataType.CHARACTERS, state.FUNCTION_STACK.peek().ARGS_LIST[0].valueAsString());
             }
         };
 
@@ -156,7 +156,7 @@ public class PackageInformationStandard extends PackageInformation
             @Override
             public void execute(ProgramState state, SymbolDatabase scope)
             {
-                state.RET = new DataValue(DataType.CHARACTERS, state.ARGS_LIST[0].valueAsString());
+                state.RET = new DataValue(DataType.CHARACTERS, state.FUNCTION_STACK.peek().ARGS_LIST[0].valueAsString());
             }
         };
 

@@ -1,0 +1,14 @@
+function factorial[whole_number number] returning whole_number
+<<
+    if [number EQUAL 1]
+    <<
+        returning 1;
+    >>
+
+    returning number MUL factorial[number SUBS];
+>>
+
+function main[] returning nothing
+<<
+    printText[<Result is: > ADD wholeNumberToString[factorial[4]] ADD < concat concat!>];
+>>

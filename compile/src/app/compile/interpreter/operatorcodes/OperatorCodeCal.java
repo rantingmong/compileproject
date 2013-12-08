@@ -35,16 +35,18 @@ public class OperatorCodeCal extends OperatorCode
             // populate argument list
             for (int i = 0; i < 20; i++)
             {
-                state.ARGS_LIST[i] = state.PARAM_LIST[i];
+                newEntry.ARGS_LIST[i] = state.FUNCTION_STACK.peek().PARAM_LIST[i];
             }
 
             // check if we're dealing with native methods
             if (newEntry.functionInfoHandle.isNative)
             {
-                // execute native method, we don't have to push this to the stack as the native method finishes
-                // immediately
+                state.FUNCTION_STACK.push(newEntry);
+
                 if (newEntry.functionInfoHandle.nativeAction != null)
                     newEntry.functionInfoHandle.nativeAction.execute(state, functionDatabase);
+
+                state.FUNCTION_STACK.pop();
             }
             else
             {

@@ -44,20 +44,20 @@ public class OperatorCodeAsg extends OperatorCode
                 int         argnum      = Integer.parseInt(destination.substring(3));
                 DataValue   xvalue      = ValueGetter.getValue(value, state, state.currentScope);
                 
-                state.ARGS_LIST[argnum] = new DataValue(xvalue.getDataType(), ValueGetter.getValue(value, state, state.currentScope).valueAsString());
+                state.FUNCTION_STACK.peek().ARGS_LIST[argnum]    = new DataValue(xvalue.getDataType(), ValueGetter.getValue(value, state, state.currentScope).valueAsString());
             }
             else if (destination.toLowerCase().contains("param"))
             {
                 int         paramnum    = Integer.parseInt(destination.substring(5));
                 DataValue   xvalue      = ValueGetter.getValue(value, state, state.currentScope);
 
-                state.PARAM_LIST[paramnum] = new DataValue(xvalue.getDataType(), ValueGetter.getValue(value, state, state.currentScope).valueAsString());
+                state.FUNCTION_STACK.peek().PARAM_LIST[paramnum] = new DataValue(xvalue.getDataType(), ValueGetter.getValue(value, state, state.currentScope).valueAsString());
             }
             else if (destination.toLowerCase().contains("ret"))
             {
                 DataValue   xvalue      = ValueGetter.getValue(value, state, state.currentScope);
 
-                state.RET = new DataValue(xvalue.getDataType(), ValueGetter.getValue(value, state, state.currentScope).valueAsString());                
+                state.RET = new DataValue(xvalue.getDataType(), ValueGetter.getValue(value, state, state.currentScope).valueAsString());
             }
             else
             {

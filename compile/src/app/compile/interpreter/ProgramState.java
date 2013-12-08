@@ -1,6 +1,5 @@
 package app.compile.interpreter;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 import app.compile.core.DataType;
@@ -12,6 +11,15 @@ public class ProgramState
 {
     public class FuncStackEntry
     {
+        /**
+         * Input for the next function in the stack.
+         */
+        public DataValue[]         ARGS_LIST          = new DataValue[20];
+        /**
+         * Input that the interpreter placed based from the previous stack entry.
+         */
+        public DataValue[]         PARAM_LIST         = new DataValue[20];
+
         public String              functionName       = "";
         public int                 programCounter     = 0;
 
@@ -23,9 +31,6 @@ public class ProgramState
     public Interpreter           program           = null;
 
     public DataValue             RET               = new DataValue(DataType.NOTHING);
-
-    public DataValue[]           ARGS_LIST         = new DataValue[20];
-    public DataValue[]           PARAM_LIST        = new DataValue[20];
 
     public Stack<FuncStackEntry> FUNCTION_STACK    = new Stack<FuncStackEntry>();
 

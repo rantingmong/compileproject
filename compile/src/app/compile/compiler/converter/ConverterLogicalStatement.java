@@ -119,6 +119,8 @@ public class ConverterLogicalStatement extends Converter
         {
             // OPERATOR NODE
             
+            // process first three node, and then take two nodes at the time and then do it with the last processed node.
+            
             // convert lhs and rhs to il-code
             String lhs = processLogicTree(parseTree.getChild(0), compiler);
             String rhs = processLogicTree(parseTree.getChild(2), compiler);
@@ -205,6 +207,81 @@ public class ConverterLogicalStatement extends Converter
                                 newEntry.dataType   = finalType;
                                 
             compiler.currentScope.entries.add(newEntry);
+
+            // process any remaining nodes
+            for (int i = 3; i < parseTree.getChildCount(); i += 2)
+            {
+                // modify var okay?
+                opr = parseTree.getChild(i).getText();
+
+                lhs = var; // from previous
+                rhs = processLogicTree(parseTree.getChild(i + 1), compiler); // new one
+
+                lhsType = finalType;
+                rhsType = TypeCoercer.getDataType(compiler.currentScope, rhs, true);
+                
+                switch (opr.toLowerCase())
+                {
+                case "equal":
+                    
+                    opr         = "EQL";
+                    
+                    finalType   = DataType.TORF;
+                    correctType = TypeCoercer.checkIfArithmeticallyCompatible(lhsType, rhsType);
+                    break;
+                case "not_equal":
+                    
+                    opr         = "NQL";
+
+                    finalType   = DataType.TORF;
+                    correctType = TypeCoercer.checkIfArithmeticallyCompatible(lhsType, rhsType);
+                    break;
+                case "or":
+                case "and":
+                    
+                    finalType   = DataType.TORF;
+                    correctType = TypeCoercer.checkIfLogicallyCompatible(lhsType, rhsType);
+                    break;
+
+                case "lt":
+                case "gt":
+                case "lte":
+                case "gte":
+
+                    finalType   = DataType.TORF;
+                    correctType = TypeCoercer.checkIfArithmeticallyCompatible(lhsType, rhsType);                
+                    break;
+                case "add":
+                case "sub":
+                case "mul":
+                case "div":
+                    
+                    finalType   = TypeCoercer.coerceType(lhsType, rhsType);
+                    correctType = TypeCoercer.checkIfArithmeticallyCompatible(lhsType, rhsType);
+                    break;
+                }
+                
+                if (!correctType)
+                {
+                    System.err.println("LHS of type " + lhsType + " with RHS of type " + rhsType + " are not compatible with each other.");
+                    return null;
+                }
+
+                var = "var" + compiler.curFunction.newVariable();
+
+                // then we add this:
+                // TODO: define type for var
+                compiler.curFunction.ilCode.add("DEC" + " " + var + " " + finalType);
+                compiler.curFunction.ilCode.add( opr  + " " + lhs + " " + rhs + " " + var);
+
+                SymbolDatabaseEntry newChildEntry            = new SymbolDatabaseEntry();
+                                    newChildEntry.ilName     = var;
+                                    newChildEntry.dataType   = finalType;
+                                    
+                compiler.currentScope.entries.add(newChildEntry);
+                
+                // infer final type
+            }
             
             return var; // return the resulting variable
         }

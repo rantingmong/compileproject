@@ -60,11 +60,11 @@ public class ValueGetter
         }
         else if (input.toLowerCase().contains("arg"))
         {
-            return state.ARGS_LIST  [Integer.parseInt(input.substring(3))];
+            return state.FUNCTION_STACK.peek().ARGS_LIST  [Integer.parseInt(input.substring(3))];
         }
         else if (input.toLowerCase().contains("param"))
         {
-            return state.PARAM_LIST [Integer.parseInt(input.substring(5))];
+            return state.FUNCTION_STACK.peek().PARAM_LIST [Integer.parseInt(input.substring(5))];
         }
         // argument is not a constant. find it in the symbol database.
         else
