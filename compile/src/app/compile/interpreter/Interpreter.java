@@ -10,6 +10,7 @@ import app.compile.interpreter.operatorcodes.OperatorCode;
 import app.compile.interpreter.operatorcodes.OperatorCodeAdd;
 import app.compile.interpreter.operatorcodes.OperatorCodeAnd;
 import app.compile.interpreter.operatorcodes.OperatorCodeAsg;
+import app.compile.interpreter.operatorcodes.OperatorCodeBek;
 import app.compile.interpreter.operatorcodes.OperatorCodeCal;
 import app.compile.interpreter.operatorcodes.OperatorCodeCase;
 import app.compile.interpreter.operatorcodes.OperatorCodeDec;
@@ -30,6 +31,8 @@ import app.compile.interpreter.operatorcodes.OperatorCodeLte;
 import app.compile.interpreter.operatorcodes.OperatorCodeMul;
 import app.compile.interpreter.operatorcodes.OperatorCodeNql;
 import app.compile.interpreter.operatorcodes.OperatorCodeOr;
+import app.compile.interpreter.operatorcodes.OperatorCodePop;
+import app.compile.interpreter.operatorcodes.OperatorCodePsh;
 import app.compile.interpreter.operatorcodes.OperatorCodeSub;
 import app.compile.interpreter.operatorcodes.OperatorCodeSwitch;
 
@@ -59,31 +62,34 @@ public class Interpreter
         programState.program = this;
         this.compiler = compiler;
         
-        opCodeList.add(new OperatorCodeGt());
-        opCodeList.add(new OperatorCodeIf());
-        opCodeList.add(new OperatorCodeLt());
-        opCodeList.add(new OperatorCodeOr());
-        opCodeList.add(new OperatorCodeAdd());
-        opCodeList.add(new OperatorCodeAnd());
-        opCodeList.add(new OperatorCodeAsg());
-        opCodeList.add(new OperatorCodeCal());
-        opCodeList.add(new OperatorCodeDec());
-        opCodeList.add(new OperatorCodeDiv());
-        opCodeList.add(new OperatorCodeEnd());
-        opCodeList.add(new OperatorCodeEql());
-        opCodeList.add(new OperatorCodeGte());
-        opCodeList.add(new OperatorCodeJmp());
-        opCodeList.add(new OperatorCodeLte());
-        opCodeList.add(new OperatorCodeMul());
-        opCodeList.add(new OperatorCodeNql());
-        opCodeList.add(new OperatorCodeSub());
-        opCodeList.add(new OperatorCodeCase());
-        opCodeList.add(new OperatorCodeElse());
-        opCodeList.add(new OperatorCodeEndIf());
-        opCodeList.add(new OperatorCodeElseIf());
-        opCodeList.add(new OperatorCodeSwitch());
-        opCodeList.add(new OperatorCodeDefault());
-        opCodeList.add(new OperatorCodeEndSwitch());
+        opCodeList.add(new OperatorCodeGt           ());
+        opCodeList.add(new OperatorCodeIf           ());
+        opCodeList.add(new OperatorCodeLt           ());
+        opCodeList.add(new OperatorCodeOr           ());
+        opCodeList.add(new OperatorCodeAdd          ());
+        opCodeList.add(new OperatorCodeAnd          ());
+        opCodeList.add(new OperatorCodeAsg          ());
+        opCodeList.add(new OperatorCodeBek          ());
+        opCodeList.add(new OperatorCodeCal          ());
+        opCodeList.add(new OperatorCodeDec          ());
+        opCodeList.add(new OperatorCodeDiv          ());
+        opCodeList.add(new OperatorCodeEnd          ());
+        opCodeList.add(new OperatorCodeEql          ());
+        opCodeList.add(new OperatorCodeGte          ());
+        opCodeList.add(new OperatorCodeJmp          ());
+        opCodeList.add(new OperatorCodeLte          ());
+        opCodeList.add(new OperatorCodeMul          ());
+        opCodeList.add(new OperatorCodeNql          ());
+        opCodeList.add(new OperatorCodePop          ());
+        opCodeList.add(new OperatorCodePsh          ());
+        opCodeList.add(new OperatorCodeSub          ());
+        opCodeList.add(new OperatorCodeCase         ());
+        opCodeList.add(new OperatorCodeElse         ());
+        opCodeList.add(new OperatorCodeEndIf        ());
+        opCodeList.add(new OperatorCodeElseIf       ());
+        opCodeList.add(new OperatorCodeSwitch       ());
+        opCodeList.add(new OperatorCodeDefault      ());
+        opCodeList.add(new OperatorCodeEndSwitch    ());
         
         mainFunction = compiler.functionList.get(compiler.functionList.size() - 1);
     }
@@ -100,6 +106,11 @@ public class Interpreter
 
     public LineEntry parseLine(String line)
     {
+        if (line.contains(":"))
+        {
+            return null;
+        }
+        
         String procLine = line + " ";
 
         int state = 0; // 0 = init, 1 = op code read, 2 = inside string
@@ -194,6 +205,12 @@ public class Interpreter
                 String      line        = curFunc.functionInfoHandle.ilCode.get(curFunc.programCounter);
                 LineEntry   lineEntry   = parseLine(line);
 
+                if (lineEntry == null)
+                {
+                    curFunc.programCounter += 1;
+                    continue;
+                }
+                
                 for (OperatorCode opCode : opCodeList)
                 {
                     if (opCode.getOperatorCode().toLowerCase().equals(lineEntry.opCode.toLowerCase()))

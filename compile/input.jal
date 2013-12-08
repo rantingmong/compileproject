@@ -9,10 +9,6 @@ function factorial          [whole_number number]                       returnin
     else <<
         returning number MUL factorial[number SUBS];
     >>
-    
-    if [TRUE] <<
-    
-    >>
 >>
 
 function anotherFunction    []                                          returning nothing <<
@@ -50,21 +46,22 @@ function loopFunction       []                                          returnin
     repeat <<
 
     >> until [hehe ADDS LT 20];
-    
+
     repeat until [TRUE] <<
 
     >>
-    
-    repeat WHOLE_NUMBER i FROM 0 TO 10 <<
 
-    >>
-    
-    repeat WHOLE_NUMBER i FROM 100 TO 0 WITH i SUBS <<
+    repeat WHOLE_NUMBER i FROM 0 TO 10 <<
 
     >>
 >>
 
 function main               []                                          returning nothing <<
+
+    repeat WHOLE_NUMBER i FROM 0 TO 10 <<
+    
+        printText[<HELLO WORLD!>];
+    >>
 
     declare returnValue as whole_number to factorial[46];
     printText[wholeNumberToString[returnValue]];

@@ -3,7 +3,6 @@ package app.compile.compiler.converter;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import app.compile.compiler.JalCompiler;
-import app.compile.database.SymbolDatabase;
 import app.compile.parser.codeParser;
 
 public class ConverterStatement extends Converter
@@ -25,12 +24,7 @@ public class ConverterStatement extends Converter
         }
         else if (statement instanceof codeParser.Group_statementContext)
         {
-            SymbolDatabase  database        = new SymbolDatabase();
-                            database.parent = compiler.currentScope;
-
             new ConverterGroupStatement().process(statement, compiler);
-
-            compiler.currentScope = database.parent;
         }
         else if (statement instanceof codeParser.Assignment_statementContext)
         {
