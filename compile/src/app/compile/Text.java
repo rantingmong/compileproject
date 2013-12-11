@@ -25,6 +25,10 @@ import javax.swing.SwingUtilities;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.fife.ui.autocomplete.*;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import app.compile.compiler.JalCompiler;
 import app.compile.compiler.converter.ConverterProgram;
@@ -37,7 +41,7 @@ public class Text extends JFrame implements ActionListener
 {
     private static final long serialVersionUID = 1L;
     
-    private JTextArea textArea = new JTextArea();
+	private JTextArea textArea = new RSyntaxTextArea(1, 1);
     private JTextArea console  = new JTextArea();
     private JToolBar  menuBar  = new JToolBar("Toolbar", JToolBar.HORIZONTAL);
     private JButton   openFile = new JButton();
@@ -90,6 +94,10 @@ public class Text extends JFrame implements ActionListener
         getContentPane().add(textAreaScroll,    BorderLayout.CENTER);
         getContentPane().add(consoleScroll,     BorderLayout.PAGE_END);
         getContentPane().add(menuBar,           BorderLayout.PAGE_START);
+        
+        CompletionProvider provider = createCompletionProvider();
+        AutoCompletion ac = new AutoCompletion(provider);
+        ac.install(textArea);
     }
 
     public void actionPerformed(ActionEvent e)
@@ -234,4 +242,68 @@ public class Text extends JFrame implements ActionListener
         System.setOut(new PrintStream(out, true));
         System.setErr(new PrintStream(out, true));
     }
+    
+    private CompletionProvider createCompletionProvider() {
+
+        // A DefaultCompletionProvider is the simplest concrete implementation
+        // of CompletionProvider. This provider has no understanding of
+        // language semantics. It simply checks the text entered up to the
+        // caret position for a match against known completions. This is all
+        // that is needed in the majority of cases.
+        DefaultCompletionProvider provider = new DefaultCompletionProvider();
+        
+        provider.addCompletion(new BasicCompletion(provider, "grab"));
+
+        provider.addCompletion(new BasicCompletion(provider, "function"));
+        provider.addCompletion(new BasicCompletion(provider, "returning"));
+        
+        provider.addCompletion(new BasicCompletion(provider, "declare"));
+        provider.addCompletion(new BasicCompletion(provider, "as"));
+        provider.addCompletion(new BasicCompletion(provider, "to"));
+        
+        provider.addCompletion(new BasicCompletion(provider, "nothing"));
+        provider.addCompletion(new BasicCompletion(provider, "whole_number"));
+        provider.addCompletion(new BasicCompletion(provider, "real_number"));
+        provider.addCompletion(new BasicCompletion(provider, "symbol"));
+        provider.addCompletion(new BasicCompletion(provider, "characters"));
+        provider.addCompletion(new BasicCompletion(provider, "torf"));
+        
+        provider.addCompletion(new BasicCompletion(provider, "OR"));
+        provider.addCompletion(new BasicCompletion(provider, "AND"));
+        provider.addCompletion(new BasicCompletion(provider, "EQUAL"));
+        provider.addCompletion(new BasicCompletion(provider, "NOTEQUAL"));
+        provider.addCompletion(new BasicCompletion(provider, "LT"));
+        provider.addCompletion(new BasicCompletion(provider, "GT"));
+        provider.addCompletion(new BasicCompletion(provider, "LTE"));
+        provider.addCompletion(new BasicCompletion(provider, "GTE"));
+        
+        provider.addCompletion(new BasicCompletion(provider, "ADD"));
+        provider.addCompletion(new BasicCompletion(provider, "SUB"));
+        provider.addCompletion(new BasicCompletion(provider, "MUL"));
+        provider.addCompletion(new BasicCompletion(provider, "DIV"));
+        provider.addCompletion(new BasicCompletion(provider, "ADDS"));
+        provider.addCompletion(new BasicCompletion(provider, "SUBS"));
+
+        provider.addCompletion(new BasicCompletion(provider, "repeat"));
+        provider.addCompletion(new BasicCompletion(provider, "until"));
+
+
+
+        
+        provider.addCompletion(new BasicCompletion(provider, "printText["));
+        
+        
+        
+        // Add a couple of "shorthand" completions. These completions don't
+        // require the input text to be the same thing as the replacement text.
+        provider.addCompletion(new ShorthandCompletion(provider, "sysout",
+              "System.out.println(", "System.out.println("));
+        provider.addCompletion(new ShorthandCompletion(provider, "syserr",
+              "System.err.println(", "System.err.println("));
+
+        return provider;
+
+     }
 }
+
+
